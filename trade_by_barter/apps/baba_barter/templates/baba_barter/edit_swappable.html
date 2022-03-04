@@ -1,0 +1,183 @@
+{% if swappable %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Edit Swappable</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Mmedara Josiah">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'baba_barter/css/bootstrap/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'baba_barter/css/edit_swappable.css' %}">
+        <link rel="icon" href="{% static 'baba_barter/favicon.ico' %}">
+        <script src="{% static 'baba_barter/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'baba_barter/js/edit_swappable.js' %}"></script>
+    </head>
+    <body style="background-color: #FDFCDC;">
+        <div class="position-relative container-fluid" style="background-color: #FDFCDC;">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-12 mb-lg-0 pt-20 py-lg-32 intro pt-md-7 px-10 px-lg-16">
+            <h5 class="mb-10 font-bold">Create Swappable:</h5>
+            <form action="{% url 'baba:update_swappable' id=swappable.id %}" method="post" data-form-type="register" id="create_swappable_form">
+                {% csrf_token %}
+                <!-- TODO Display error messages -->
+                <input class="form-control mb-4 border-dark" type="text" name="name" value="{{swappable.name}}" data-form-type="text" required>
+                <select class="form-control mb-4 border-dark type" name="type" id="type" required>
+                    {% if swappable.type == 'product' %}
+                        <option value="product" selected>Product</option>
+                        <option value="service">Service</option>
+                    {% else %}
+                        <option value="product">Product</option>
+                        <option value="service" selected>Service</option>
+                    {% endif %}
+                </select>
+                <select class="form-control mb-4 border-dark category" name="category" id="category" required>
+                    {% if swappable.category.name == 'shoe' %}
+                        <option value="shoe" selected>Shoe</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="technology">Technology</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="other">Other</option>
+                    {% endif %}
+                    {% if swappable.category.name == 'clothing' %}
+                        <option value="shoe">Shoe</option>
+                        <option value="clothing" selected>Clothing</option>
+                        <option value="technology">Technology</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="other">Other</option>
+                    {% endif %}
+                    {% if swappable.category.name == 'technology' %}
+                        <option value="shoe">Shoe</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="technology" selected>Technology</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="other">Other</option>
+                    {% endif %}
+                    {% if swappable.category.name == 'fashion' %}
+                        <option value="shoe">Shoe</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="technology">Technology</option>
+                        <option value="fashion" selected>Fashion</option>
+                        <option value="other">Other</option>
+                    {% endif %}
+                    {% if swappable.category.name == 'other' %}
+                        <option value="shoe">Shoe</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="technology">Technology</option>
+                        <option value="fashion">Fashion</option>
+                        <option value="other" selected>Other</option>
+                    {% endif %}
+                </select>
+                {% if sub_categories %}
+                    <input class="form-control mb-4 border-dark" type="text" name="sub_categories" data-form-type="text" value="{{sub_categories}}">
+                {% endif %}
+                <input class="form-control mb-4 border-dark" type="text" name="short_description" data-form-type="text" value="{{swappable.short_description}}" required>
+                <textarea class="form-control mb-4 border-dark long_description" form="create_swappable_form" name="long_description" data-form-type="text, new" rows="3">{{swappable.long_description}}</textarea>
+                <textarea class="form-control mb-4 border-dark notes" form="create_swappable_form" name="notes" data-form-type="text, new" rows="2">{{swappable.notes}}</textarea>
+                <input class="form-control mb-4 border-dark" type="file" accept="image/*" name="images" data-form-type="file" required multiple>
+                <input class="form-control mb-4 border-dark" type="number" name="value" data-form-type="number" value="{{swappable.value}}" required>
+                <select class="form-control mb-4 border-dark currency" name="currency" id="currency" required>
+                    <option value="none" selected>Select a currency</option>
+                    <option value="USD">United States Dollars</option>
+                    <option value="EUR">Euro</option>
+                    <option value="GBP">United Kingdom Pounds</option>
+                    <option value="DZD">Algeria Dinars</option>
+                    <option value="ARP">Argentina Pesos</option>
+                    <option value="AUD">Australia Dollars</option>
+                    <option value="ATS">Austria Schillings</option>
+                    <option value="BSD">Bahamas Dollars</option>
+                    <option value="BBD">Barbados Dollars</option>
+                    <option value="BEF">Belgium Francs</option>
+                    <option value="BMD">Bermuda Dollars</option>
+                    <option value="BRR">Brazil Real</option>
+                    <option value="BGL">Bulgaria Lev</option>
+                    <option value="CAD">Canada Dollars</option>
+                    <option value="CLP">Chile Pesos</option>
+                    <option value="CNY">China Yuan Renmimbi</option>
+                    <option value="CYP">Cyprus Pounds</option>
+                    <option value="CSK">Czech Republic Koruna</option>
+                    <option value="DKK">Denmark Kroner</option>
+                    <option value="NLG">Dutch Guilders</option>
+                    <option value="XCD">Eastern Caribbean Dollars</option>
+                    <option value="EGP">Egypt Pounds</option>
+                    <option value="FJD">Fiji Dollars</option>
+                    <option value="FIM">Finland Markka</option>
+                    <option value="FRF">France Francs</option>
+                    <option value="DEM">Germany Deutsche Marks</option>
+                    <option value="XAU">Gold Ounces</option>
+                    <option value="GRD">Greece Drachmas</option>
+                    <option value="HKD">Hong Kong Dollars</option>
+                    <option value="HUF">Hungary Forint</option>
+                    <option value="ISK">Iceland Krona</option>
+                    <option value="INR">India Rupees</option>
+                    <option value="IDR">Indonesia Rupiah</option>
+                    <option value="IEP">Ireland Punt</option>
+                    <option value="ILS">Israel New Shekels</option>
+                    <option value="ITL">Italy Lira</option>
+                    <option value="JMD">Jamaica Dollars</option>
+                    <option value="JPY">Japan Yen</option>
+                    <option value="JOD">Jordan Dinar</option>
+                    <option value="KRW">Korea (South) Won</option>
+                    <option value="LBP">Lebanon Pounds</option>
+                    <option value="LUF">Luxembourg Francs</option>
+                    <option value="MYR">Malaysia Ringgit</option>
+                    <option value="MXP">Mexico Pesos</option>
+                    <option value="NLG">Netherlands Guilders</option>
+                    <option value="NZD">New Zealand Dollars</option>
+                    <option value="NOK">Norway Kroner</option>
+                    <option value="PKR">Pakistan Rupees</option>
+                    <option value="XPD">Palladium Ounces</option>
+                    <option value="PHP">Philippines Pesos</option>
+                    <option value="XPT">Platinum Ounces</option>
+                    <option value="PLZ">Poland Zloty</option>
+                    <option value="PTE">Portugal Escudo</option>
+                    <option value="ROL">Romania Leu</option>
+                    <option value="RUR">Russia Rubles</option>
+                    <option value="SAR">Saudi Arabia Riyal</option>
+                    <option value="XAG">Silver Ounces</option>
+                    <option value="SGD">Singapore Dollars</option>
+                    <option value="SKK">Slovakia Koruna</option>
+                    <option value="ZAR">South Africa Rand</option>
+                    <option value="KRW">South Korea Won</option>
+                    <option value="ESP">Spain Pesetas</option>
+                    <option value="XDR">Special Drawing Right (IMF)</option>
+                    <option value="SDD">Sudan Dinar</option>
+                    <option value="SEK">Sweden Krona</option>
+                    <option value="CHF">Switzerland Francs</option>
+                    <option value="TWD">Taiwan Dollars</option>
+                    <option value="THB">Thailand Baht</option>
+                    <option value="TTD">Trinidad and Tobago Dollars</option>
+                    <option value="TRL">Turkey Lira</option>
+                    <option value="VEB">Venezuela Bolivar</option>
+                    <option value="ZMK">Zambia Kwacha</option>
+                    <option value="EUR">Euro</option>
+                    <option value="XCD">Eastern Caribbean Dollars</option>
+                    <option value="XDR">Special Drawing Right (IMF)</option>
+                    <option value="XAG">Silver Ounces</option>
+                    <option value="XAU">Gold Ounces</option>
+                    <option value="XPD">Palladium Ounces</option>
+                    <option value="XPT">Platinum Ounces</option>
+                </select>
+                <label class="form-label" for="condition" id="condition_label">Condition:</label>
+                <input class="form-control mb-4 border-dark" id="condition_range" type="range" name="condition" min="0" max="100" data-form-type="range" value="{{swappable.condition}}" required>
+                <div class="row px-1 px-lg-4">
+                    <button class="btn btn-outline-primary fw-bold mt-12 mt-md-10 col-12 mx-auto px col-lg-6 p-1" id="cancel" data-form-type="action,cancel" style="width: 200px; height: 50px; color: #0081A7;">Cancel</button>
+                    <button class="col-12 col-lg-6 btn text-black border-dark mt-12 mt-md-10 mx-auto ms-lg-auto p-1" type="submit" data-form-type="action,register" style="background-color: #f07167; width: 200px; height: 50px;">Save</button>
+                </div>
+            </form>
+            </div>
+            <!-- TODO Include Tips -->
+            <div class="row col-12 col-md-6 mb-12 mb-lg-0 px-10 py-lg-32 intro pt-md-7 mx-0 px-lg-16">
+            <div class="p-10" style="background-color: #00AFB9;">
+                Tips
+            </div>
+            </div>
+        </div>
+        </div>
+    </body>
+    </html>
+{% endif %}

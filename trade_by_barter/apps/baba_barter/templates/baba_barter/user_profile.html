@@ -1,0 +1,118 @@
+{% extends 'baba_barter/base.html' %} 
+{% block title %} Profile - Baba Barter {% endblock %}
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/user_profile.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/user_profile.js' %}"></script> {% endblock %}
+
+{% if user %}
+    {% block image %} <img class="img-fluid" src="{{user.profile_image.url}}" alt="went" width="40px" height="40px"> {% endblock %}
+    {% block content %}
+        <div class="position-relative container-fluid" style="background-color: #FDFCDC;">
+            <div class="row intro_first_div">
+                <div class="col-12 col-md-4 mb-12 mb-lg-0 pt-10 py-lg-20 intro pt-md-7 pt-lg-12 px-4">
+                    <div class="position-relative mx-auto ms-md-4 ms-lg-20 border border-dark" style="background-color: #fed9b7;">
+                        <div class=" text-center mb-6">
+                            <img class="text-center img-fluid text-center" src="{{user.profile_image.url}}" alt="Profile Picture">
+                            <a class="d-block text-center link-primary" href="#" style="color: #0081A7;">Update Photo</a>
+                        </div>
+                        <div class="px-6 d-block">
+                            <a class="link-dark text-decoration-none d-block align-items-center mb-2" href="#">
+                                <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                5 reviews
+                            </a>
+                            <a class="link-dark text-decoration-none d-block align-items-center mb-2" href="#">
+                                <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                7 swaps
+                            </a>
+                            <a class="link-dark text-decoration-none d-block align-items-center mb-4" href="{% url 'baba:swappables' id=1 %}">
+                                <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                10 swappables
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative col-12 col-md-8 mb-12 mb-lg-0 intro_img">
+                    <div class="mw-xl intro_text me-md-10 me-lg-10 mt-md-12 mt-0 mb-10 px-4 ms-lg-20">
+                        <h3 class="mb-0">Hi, I'm {{user.first_name}} {{user.last_name}}</h3>
+                        <p class="text-muted mb-2">Joined on {{user.created_at}}</p>
+                        <a id="edit_profile_link" href="{% url 'baba:edit_profile' id=user.id %}" style="color: #0081A7;">Edit Profile</a>
+                    </div>
+                    <div class="mw-xl me-md-10 me-lg-10 mt-md-12 mt-0 mb-10 px-4 ms-lg-20 border-bottom border-dark profile_info" id="profile_info">
+                        <h5 class="mb-4">About</h5>
+                        <p class="mb-6">{{user.description}}</p>
+                        <p class="mb-2">
+                            <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Lives in Ottawa, Canada
+                        </p>
+                        <p class="mb-2">
+                            <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Speaks English, Vietnamese, and French
+                        </p>
+                        <p class="mb-6">
+                            <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Work: Influencer
+                        </p>
+                    </div>
+                    <div class="mw-xl me-md-10 me-lg-10 mt-md-6 mt-0 mb-10 px-4 ms-lg-20 border-bottom border-dark">
+                        <div class="mb-10">
+                            <p class="mb-6 fw-bold">
+                                <svg class="me-1" width="25" height="25" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                2 reviews
+                            </p>
+                            <p class="text-muted mb-2">February 2022</p>
+                            <p class="mb-3">Great guests, very clean</p>
+                            <a class="link-dark text-decoration-none d-inline-flex align-items-center" href="#">
+                                <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <div class="mw-xl">
+                                    <p class="mb-0 fw-bold">Mmedara Josiah</p>
+                                    <p class="text-muted mb-2">Joined in 2021</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="mb-10">
+                            <p class="text-muted mb-2">February 2022</p>
+                            <p class="mb-3">Great guests, very clean</p>
+                            <a class="link-dark text-decoration-none d-inline-flex align-items-center" href="#">
+                                <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <div class="mw-xl">
+                                    <p class="mb-0 fw-bold">Mmedara Josiah</p>
+                                    <p class="text-muted mb-2">Joined in 2021</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mw-xl me-md-10 mt-md-6 mt-0 px-4 ms-lg-20 mb-20 pb-10 border-bottom border-dark">
+                        <a class="link-dark fw-bold" href="#">Reviews by you</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endif %}

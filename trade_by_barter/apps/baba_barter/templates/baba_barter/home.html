@@ -1,0 +1,373 @@
+{% extends 'baba_barter/base.html' %} 
+{% block title %} Home - Baba Barter {% endblock %}
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/home.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/home.js' %}"></script> {% endblock %}
+
+{% if user %}
+  {% block image %} 
+    <img class="img-fluid" id="profile_image" src="{{user.profile_image.url}}" alt="" width="40px" height="40px">
+  {% endblock %}
+  {% block image_burger %} 
+    <img class="img-fluid" id="profile_image" src="{{user.profile_image.url}}" alt="" width="40px" height="40px">
+  {% endblock %}
+  {% block content %}
+    <div class="container py-20">
+      {% include 'baba_barter/filter.html' %}
+      <div class="row mb-24">
+        <div class="col-12 px-3">
+          <div class="row">
+            {% with ''|center:4 as range %}
+              {% for _ in range %}
+                {% include 'baba_barter/swap_items.html' with colour="#F07167" profile_image='/media/profile_images/book.png' %}
+              {% endfor %}
+            {% endwith %}
+            {% with ''|center:4 as range %}
+              {% for _ in range %}
+                {% include 'baba_barter/swap_items.html' with colour="#4287f5" profile_image='/media/profile_images/book.png'  %}
+              {% endfor %}
+            {% endwith %}
+            {% with ''|center:4 as range %}
+              {% for _ in range %}
+                {% include 'baba_barter/swap_items.html' with colour="#ce02d9" profile_image='/media/profile_images/book.png'  %}
+              {% endfor %}
+            {% endwith %}
+            {% with ''|center:4 as range %}
+              {% for _ in range %}
+                {% include 'baba_barter/swap_items.html' with colour="#d9ba09" profile_image='/media/profile_images/book.png'  %}
+              {% endfor %}
+            {% endwith %}
+            {% with ''|center:4 as range %}
+              {% for _ in range %}
+                {% include 'baba_barter/swap_items.html' with colour="#2fd10a" profile_image='/media/profile_images/book.png'  %}
+              {% endfor %}
+            {% endwith %}
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-4" style="background-color: #fae6cd; border-radius: 15px;">
+                <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=1 %}">
+                  <!-- <div>
+                    <h6 class="fw-bold text-black mb-0 pb-0">Converse Shoes</h6>
+                    <p class="lead text-muted mb-0" style="font-size: x-small;">Posted 6 minutes ago</p>
+                  </div> -->
+                  <img class="mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/waterbottle.png' %}" alt="">
+                  <!-- <p class="mb-0">Condition: </p>
+                  <p class="mb-0">
+                    <span>Size: 12</span>
+                    <span> | </span>
+                    <span>Orange</span>
+                    <span> | </span>
+                    <span>Brand New</span>
+                  </p> -->
+                </a>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-4" style="background-color: #fae6cd; border-radius: 15px;">
+                <a class="link-dark text-decoration-none d-block" href="#">
+                  <!-- <div>
+                    <h6 class="fw-bold text-black mb-0 pb-0">
+                      Converse Shoes
+                    </h6>
+                    <p class="lead text-muted mb-0" style="font-size: x-small;">Posted 6 minutes ago</p>
+                  </div> -->
+                  <img class="mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/skateboard.png' %}" alt="">
+                  <!-- <p class="mb-0">Condition: </p>
+                  <p class="mb-0">
+                    <span>Size: 12</span>
+                    <span> | </span>
+                    <span>Orange</span>
+                    <span> | </span>
+                    <span>Brand New</span>
+                  </p> -->
+                </a>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-4 bg-light-light" style="background-color: #fae6cd; border-radius: 15px;">
+                <a class="link-dark text-decoration-none d-block" href="#">
+                  <!-- <div>
+                    <h6 class="fw-bold text-black mb-0 pb-0">
+                      Converse Shoes
+                    </h6>
+                    <p class="lead text-muted mb-0" style="font-size: x-small;">Posted 6 minutes ago</p>
+                  </div> -->
+                  <img class="mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <!-- <p class="mb-0">Condition: </p>
+                  <p class="mb-0">
+                    <span>Size: 12</span>
+                    <span> | </span>
+                    <span>Orange</span>
+                    <span> | </span>
+                    <span>Brand New</span>
+                  </p> -->
+                </a>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-6 bg-light-light"><!-- 
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span> -->
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <!-- <h3 class="mb-2 lead fw-bold">Bicycle S20</h3>
+                  <p class="h6 text-info">
+                    <span>$14.30</span>
+                    <span class="small text-secondary text-decoration-line-through">$15.90</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a> -->
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/basketball.png' %}" alt="">
+                  <!-- <h3 class="mb-2 lead fw-bold">Nike basketball ball</h3>
+                  <p class="h6 text-info">
+                    <span>$24.89</span>
+                    <span class="small text-secondary text-decoration-line-through">$33.69</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a> -->
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-info rounded-pill fw-bold text-info">NEW</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/skateboard.png' %}" alt="">
+                  <!-- <h3 class="mb-2 lead fw-bold">Kiteboard WH-004</h3>
+                  <p class="h6 text-info">
+                    <span>$199.90</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a> -->
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-10%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/backpack.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Backpack Travel</h3>
+                  <p class="h6 text-info">
+                    <span>$21.99</span>
+                    <span class="small text-secondary text-decoration-line-through">$24.00</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Bicycle S20</h3>
+                  <p class="h6 text-info">
+                    <span>$14.30</span>
+                    <span class="small text-secondary text-decoration-line-through">$15.90</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/waterbottle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">BRILE water filter</h3>
+                  <p class="h6 text-info">
+                    <span>$29.89</span>
+                    <span class="small text-secondary text-decoration-line-through">$33.69</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Bicycle S20</h3>
+                  <p class="h6 text-info">$14.30</p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/basketball.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Nike basketball ball</h3>
+                  <p class="h6 text-info">
+                    <span>$34.89</span>
+                    <span class="small text-secondary text-decoration-line-through">$33.69</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-info rounded-pill fw-bold text-info">NEW</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/skateboard.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Kiteboard WH-004</h3>
+                  <p class="h6 text-info">$199.90</p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/backpack.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Backpack Travel</h3>
+                  <p class="h6 text-info">
+                    <span>$21.99</span>
+                    <span class="small text-secondary text-decoration-line-through">$24.00</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Bicycle S20</h3>
+                  <p class="h6 text-info">
+                    <span>$14.30</span>
+                    <span class="small text-secondary text-decoration-line-through">$15.90</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/waterbottle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">BRILE water filter</h3>
+                  <p class="h6 text-info">
+                    <span>$29.89</span>
+                    <span class="small text-secondary text-decoration-line-through">$33.69</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/cycle.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Bicycle S20</h3>
+                  <p class="h6 text-info">
+                    <span>$14.30</span>
+                    <span class="small text-secondary text-decoration-line-through">$15.90</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 px-3 mb-8">
+              <div class="p-6 bg-light-light">
+                <span class="badge bg-white border border-2 border-danger rounded-pill fw-bold text-danger">-15%</span>
+                <a class="link-dark text-decoration-none d-block px-6 mt-6 mb-2" href="#">
+                  <img class="mb-5 mx-auto img-fluid w-100" style="height: 224px; object-fit: contain;" src="{% static 'baba_barter/yofte-assets/images/basketball.png' %}" alt="">
+                  <h3 class="mb-2 lead fw-bold">Nike basketball ball</h3>
+                  <p class="h6 text-info">
+                    <span>$34.89</span>
+                    <span class="small text-secondary text-decoration-line-through">$33.69</span>
+                  </p>
+                </a>
+                <a class="ms-auto me-2 d-flex align-items-center justify-content-center border rounded-3" href="#" style="width: 48px; height: 48px;">
+                  <svg width="12" height="12" viewbox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" width="2" height="12" fill="#161616"></rect>
+                    <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <a class="btn btn-primary" href="#">Show More</a>
+      </div>
+    </div>
+  {% endblock %}
+{% endif %}

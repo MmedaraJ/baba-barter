@@ -1,0 +1,7 @@
+<form action="{% url 'baba:process_image' %}" method="post">
+    {% csrf_token %}
+    <input class="form-control mb-4 border-dark" type="file" accept="image/*" name="image" data-form-type="file, new">
+    <input type="submit" value="Submit">
+</form>
+
+<!-- <img src="{{image.get_absolute_url}}" alt=""> -->

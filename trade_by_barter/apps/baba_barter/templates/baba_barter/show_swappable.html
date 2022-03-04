@@ -1,0 +1,152 @@
+{% extends 'baba_barter/base.html' %} 
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/show_swappable.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/show_swappable.js' %}"></script> {% endblock %}
+{% load social_share %}
+
+{% if swappable %}
+    {% if user %}
+        {% block title %} {{swappable.name}} {% endblock %}
+        {% block content %}
+            <section class="py-20 overflow-hidden">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                        <nav aria-label="breadcrumb mb-8">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="text-decoration-none fw-bold text-uppercase text-secondary" href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-decoration-none fw-bold text-uppercase text-secondary" href="#">WATER FILTERS</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">BRILE WATER FILTER CARAFE</li>
+                            </ol>
+                        </nav>
+                        </div>
+                        <div class="col-12 col-md-6 mb-8 mb-md-0">
+                            <div class="mt-2 mb-6 d-flex justify-content-between align-items-center">
+                                <span class="h2 d-inline-flex">{{swappable.name}}</span>
+                                <svg class="" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
+                            <div class="row">
+                                <div class="md-col-12 col-lg-3 mb-2 mb-lg-0">
+                                    <div class="d-flex flex-lg-column h-100 justify-content-between">
+                                        <a class="d-block mb-4 me-2 me-lg-0 border border-info" href="#" style="width: 128px; height: 128px;">
+                                        <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle" style="object-fit: cover;" src="{% static 'baba_barter/yofte-assets/images/product-bottle.png' %}" alt="">
+                                        </a>
+                                        <a class="d-block mb-4 me-2 me-lg-0" href="#" style="width: 128px; height: 128px;">
+                                        <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle" style="object-fit: cover;" src="{% static 'baba_barter/yofte-assets/images/product-bottle2.png' %}" alt="">
+                                        </a>
+                                        <a class="d-block mb-4 me-2 me-lg-0" href="#" style="width: 128px; height: 128px;">
+                                        <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle" style="object-fit: cover;" src="{% static 'baba_barter/yofte-assets/images/product-bottle3.png' %}" alt="">
+                                        </a>
+                                        <a class="d-block" href="#" style="width: 128px; height: 128px;">
+                                        <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle" style="object-fit: cover;" src="{% static 'baba_barter/yofte-assets/images/product-bottle4.png' %}" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-9">
+                                    <div class="position-relative" style="height: 564px;">
+                                        <a class="position-absolute top-50 start-0 ms-8 translate-middle-y" href="#">
+                                            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9 16.0185C9.268 16.2905 9.268 16.7275 9 16.9975C8.732 17.2675 8.299 17.2685 8.031 16.9975L0.201 9.0895C-0.067 8.8195 -0.067 8.3825 0.201 8.1105L8.031 0.2025C8.299 -0.0675 8.732 -0.0675 9 0.2025C9.268 0.4735 9.268 0.9115 9 1.1815L1.859 8.6005L9 16.0185Z" fill="#1F40FF"></path>
+                                            </svg>
+                                        </a>
+                                        <img class="w-100 h-100 img-fluid" style="object-fit: cover;" src="{% static 'baba_barter/yofte-assets/images/product-bottle.png' %}" alt="">
+                                        <a class="position-absolute top-50 end-0 me-8 translate-middle-y" href="#">
+                                            <svg width="10" height="18" viewBox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0.19922 1.1817C-0.0687795 0.909696 -0.0687794 0.472695 0.19922 0.202695C0.46722 -0.0673054 0.90022 -0.0683048 1.16822 0.202695L8.99822 8.11069C9.26622 8.3807 9.26622 8.81769 8.99822 9.08969L1.16822 16.9977C0.900219 17.2677 0.467218 17.2677 0.199219 16.9977C-0.0687809 16.7267 -0.0687808 16.2887 0.199219 16.0187L7.34022 8.5997L0.19922 1.1817Z" fill="#1F40FF"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-9 mt-12 ms-auto">
+                                    <input class="form-control mb-4 border-dark" id="condition" type="range" name="condition" min="0" max="100" value="{{swappable.condition}}" data-form-type="range" style="background-color: #fed9b7;" disabled>
+                                    <div class="">
+                                        {% post_to_facebook "Check out this swappable: {{swappable.name}}" object_or_url "<p style='color: #00AFB9;'>Facebook</p>" %}
+                                        {% post_to_whatsapp "Check out this swappable: {{swappable.name}}" object_or_url "<p style='color: #00AFB9;'>Whatsapp</p>" %}
+                                        {% post_to_twitter "Check out this swappable: {{swappable.name}}" object_or_url "<p style='color: #00AFB9;'>Twitter</p>" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div>
+                                <div class="mb-10 pb-10 border-bottom border-dark">
+                                    <div class="mb-8 justify-content-between d-flex">
+                                        <a class="link-dark text-decoration-none d-inline-flex align-items-center" href="#">
+                                            <div class="me-10 mw-xl">
+                                                <p class="mb-0 fw-bold">Owner</p>
+                                                <p class="mb-4 text-muted">{{user.first_name}} {{user.last_name}}</p>
+                                            </div>
+                                            <svg class="" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </a>
+                                        <a id="edit_profile_link" href="{% url 'baba:edit_swappable' id=swappable.id %}" style="color: #0081A7;">Edit</a>
+                                    </div>
+                                    <p class="d-inline-block h5 mb-8 text-info">
+                                        <span>Value: ${{swappable.value}}</span>
+                                    </p>
+                                    <p class="mw-md">{{swappable.short_description}}</p>
+                                </div>
+                                <div class="mb-14 align-items-center">
+                                    <div class="row align-items-center">
+                                        <div class="col-12 col-lg-6 mb-8">
+                                            <a class="btn border border-dark d-flex w-100 d-flex-wrap align-items-center justify-content-center rounded-md" href="#" style='background-color: #fed9b7;'>
+                                                <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                                <span class="fw-bold text-uppercase">Save</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-12 col-lg-6 mb-8">
+                                            <a class="btn border border-dark d-flex w-100 d-flex-wrap align-items-center justify-content-center rounded-md" href="#" style='background-color: #fed9b7;'>
+                                                <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                                <span class="fw-bold text-uppercase">Compare</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="">
+                                        <a class="btn border border-dark d-flex w-100 d-flex-wrap align-items-center justify-content-center rounded-md" href="#" style='background-color: #00AFB9;'>
+                                            <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                            <span class="">Hi, let's talk about this swappable</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="py-6 border-bottom border-dark" id="show_description">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="lead fw-bold">Description</h4>
+                                        <div class="d-inline-flex align-items-center justify-content-center border rounded-2" style="width: 48px; height: 48px;">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" width="2" height="12" fill="#161616"></rect>
+                                                <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <p id="long_description">{{swappable.long_description}}</p>
+                                </div>
+                                <div class="py-6 border-bottom border-dark py-6" id="show_notes">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="lead fw-bold">Notes</h4>
+                                        <div class="d-inline-flex align-items-center justify-content-center border rounded-2" style="width: 48px; height: 48px;">
+                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="5" width="2" height="12" fill="#161616"></rect>
+                                                <rect x="12" y="5" width="2" height="12" transform="rotate(90 12 5)" fill="#161616"></rect>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <p id="notes">{{swappable.notes}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+    {% endif %}
+{% endif %}

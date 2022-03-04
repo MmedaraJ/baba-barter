@@ -1,0 +1,68 @@
+{% extends 'baba_barter/base.html' %} 
+{% block title %} Your Swappables - Baba Barter {% endblock %}
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/swappables.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/swappables.js' %}"></script> {% endblock %}
+
+{% if user %}
+  {% if user_image %}
+    {% block image %} 
+      <img class="img-fluid" id="profile_image" src="{{user_image.image.url}}" alt="" width="40px" height="40px">
+    {% endblock %}
+    {% block image_burger %} 
+      <img class="img-fluid" id="profile_image" src="{{user_image.image.url}}" alt="" width="40px" height="40px">
+    {% endblock %}
+  {% endif %}
+  {% block content %}
+    <div class="container py-20">
+      {% if both %}
+        {% include 'baba_barter/filter.html' with title="Your swappables" %}
+        <div class="row mb-24">
+          <div class="col-12 px-3">
+            <div class="row">
+              {% for swappable, swappable_image in both %}
+                <div class="col-4 col-sm-3 col-md-3 col-lg-2 mb-6">
+                  <div class="border border-dark" style="background-color: #F07167; border-radius: 15px;">
+                    <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                      <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: fill;" src="{{swappable_image.image.url}}" alt="">
+                    </a>
+                  </div>
+                </div>
+              {% endfor %}
+              <!-- {% with ''|center:4 as range %}
+                {% for _ in range %}
+                  {% include 'baba_barter/swap_items.html' with colour="#F07167" profile_image='/media/profile_images/book.png' %}
+                {% endfor %}
+              {% endwith %}
+              {% with ''|center:4 as range %}
+                {% for _ in range %}
+                  {% include 'baba_barter/swap_items.html' with colour="#4287f5" %}
+                {% endfor %}
+              {% endwith %}
+              {% with ''|center:4 as range %}
+                {% for _ in range %}
+                  {% include 'baba_barter/swap_items.html' with colour="#ce02d9" %}
+                {% endfor %}
+              {% endwith %}
+              {% with ''|center:4 as range %}
+                {% for _ in range %}
+                  {% include 'baba_barter/swap_items.html' with colour="#d9ba09" %}
+                {% endfor %}
+              {% endwith %}
+              {% with ''|center:4 as range %}
+                {% for _ in range %}
+                  {% include 'baba_barter/swap_items.html' with colour="#2fd10a" %}
+                {% endfor %}
+              {% endwith %} -->
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <a class="btn btn-primary" href="#">Show More</a>
+        </div>
+      {% else %}
+        <p>You have no swappables</p>
+      {% endif %}
+    </div>
+  {% endblock %}
+{% endif %}

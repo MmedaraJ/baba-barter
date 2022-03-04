@@ -1,0 +1,24 @@
+{% extends 'baba_barter/base.html' %} 
+{% block title %} Edit Profile - Baba Barter {% endblock %}
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/edit_profile.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/edit_profile.js' %}"></script> {% endblock %}
+
+{% block header %} {% endblock %}
+{% block content %} 
+  {% if user %}
+    <div class="mw-md mx-auto p-4">
+      <h5 class="mb-10 font-bold">Edit profile:</h5>
+      <form action="" method="post" data-form-type="register" id="edit_profile_form">
+        {% csrf_token %}
+        <label for="user_description fw-bold">About</label>
+        <textarea class="form-control mb-4 border-dark user_description mt-2" form="edit_profile_form" name="user_description" data-form-type="text" rows="3" required>{{user.description}}</textarea>
+        <div class="row mt-12 mt-md-10 justify-content-between d-flex p-4">
+          <button class="btn btn-link fw-bold col-sm-12 col-md-6 p-1" id="cancel" data-form-type="action,cancel" style="width: 200px; height: 50px; color: #0081A7;">Cancel</button>
+          <button class="col-sm-12 col-md-6 btn text-black border-dark p-1" type="submit" data-form-type="action,register" style="background-color: #f07167; width: 200px; height: 50px;">Save</button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}
+{% block footer %} {% endblock %}

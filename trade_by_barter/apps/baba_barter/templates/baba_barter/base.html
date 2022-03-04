@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %} {% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Mmedara Josiah">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'baba_barter/css/bootstrap/bootstrap.min.css' %}">
+        {% block css %} {% endblock %}
+        <link rel="icon" href="{% static 'baba_barter/favicon.ico' %}">
+        <script src="{% static 'baba_barter/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+        {% block js %} {% endblock %}
+        {% load social_share %}
+    </head>
+    <body style="background-color: #fae6cd;">
+        {% block header %}
+            <section class="position-relative overflow-hidden">
+                <nav class="navbar py-0 navbar-expand-lg navbar-light border-bottom border-dark nav_background" style="background-color: #fae6cd;">
+                    <div class="container-fluid nav_bar">
+                        <a class="navbar-brand h6 flex-shrink-0 py-10" href="{% url 'baba:home' id=4 %}">
+                            <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/logos/yofte-logo.svg' %}" alt="" width="auto">
+                        </a>
+                        <button class="navbar-burger navbar-toggler" type="button">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="d-none d-xl-flex navbar-collapse ms-12 nav_info">
+                            <a class="btn btn-danger me-10 ms-auto px-10 align-self-stretch link-dark d-flex align-items-center create_swappable" role="button" href="{% url 'baba:create_swappable' id=user.id %}">
+                                <span>+&nbsp;Create</span>
+                            </a>
+                            <a class="me-5 align-self-stretch link-dark text-decoration-none d-flex align-items-center fw-bold signin" href="#">
+                                <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                            <a class="me-5 align-self-stretch link-dark text-decoration-none d-flex align-items-center fw-bold signin" href="#">
+                                <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                            <div class="dropdown me-10" style="background-color: #fae6cd;">
+                                <a class="btn dropdown-toggle" style="background-color: #fae6cd;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    {% block image %} {% endblock %}
+                                </a>
+                                <div class="dropdown-menu border border-dark" style="background-color: #fae6cd;" aria-labelledby="dropdownMenuLink">
+                                    <div class="border-bottom border-dark">
+                                        <a class="dropdown-item" href="#">Messages</a>
+                                        <a class="dropdown-item" href="#">Swaps</a>
+                                        <a class="dropdown-item" href="#">Wishlist</a>
+                                        <a class="dropdown-item" href="{% url 'baba:swappables' id=user.id %}">Swappables</a>
+                                    </div>
+                                    <div class="border-bottom border-dark">
+                                        <a class="dropdown-item" href="{% url 'baba:show_user' id=user.id %}">Profile</a>
+                                    </div>
+                                    <div class="">
+                                        <a class="dropdown-item" href="#">Help</a>
+                                        <a class="dropdown-item" href="#">Logout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="navbar-menu position-fixed top-0 start-0 bottom-0 w-75 mw-sm d-none" style="z-index: 9999;">
+                    <div class="navbar-close position-fixed top-0 start-0 w-100 h-100 bg-dark opacity-25"></div>
+                    <nav class="position-relative h-100 w-100 d-flex flex-column py-6 px-6 border-end overflow-auto collapsed_nav_background" style="background-color: #fae6cd;" data-dashlane-rid="eaa08d59917aa8d9" data-form-type="">
+                        <div class="d-flex align-items-center mb-8">
+                            <a class="me-auto h6" href="#">
+                            <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/logos/yofte-logo.svg' %}" alt="" width="auto"></a>
+                            <button class="navbar-close btn p-0">
+                                <svg class="text-secondary" style="width: 8px; height: 8px;" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.00002 1L1 9.00002M1.00003 1L9.00005 9.00002" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <ul class="list-unstyled mb-0">
+                            <a class="btn btn-danger me-10 ms-auto px-10 align-self-stretch justify-content-center link-dark d-flex align-items-center create_swappable" role="button" href="{% url 'baba:create_swappable' id=user.id %}">
+                                <span>+&nbsp;Create</span>
+                            </a>
+                            <!-- TODO add other menu items -->
+                            <li class="mb-8">
+                                <a class="me-5 align-self-stretch link-dark text-decoration-none d-flex align-items-center fw-bold signin" href="#">
+                                    <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="mb-8">
+                                <a class="me-5 align-self-stretch link-dark text-decoration-none d-flex align-items-center fw-bold signin" href="#">
+                                    <svg class="me-3" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M24.4225 23.8963C23.6678 22.3507 22.4756 21.0445 20.9845 20.1298C19.4934 19.2151 17.7647 18.7295 15.9998 18.7295C14.2349 18.7295 12.5063 19.2151 11.0152 20.1298C9.52406 21.0445 8.33179 22.3507 7.57715 23.8963" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="mb-8">
+                                <div class="dropdown dropright me-10" style="background-color: #fae6cd;">
+                                    <a class="btn dropdown-toggle" style="background-color: #fae6cd;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {% block image_burger %} 
+                                            <img class="img-fluid" id="profile_image" src="" alt="" width="40px" height="40px">
+                                        {% endblock %}
+                                    </a>
+                                    <div class="dropdown-menu border border-dark" style="background-color: #fae6cd;" aria-labelledby="dropdownMenuLink">
+                                        <div class="border-bottom border-dark">
+                                            <a class="dropdown-item" href="#">Messages</a>
+                                            <a class="dropdown-item" href="#">Swaps</a>
+                                            <a class="dropdown-item" href="#">Wishlist</a>
+                                            <a class="dropdown-item" href="{% url 'baba:swappables' id=user.id %}">Swappables</a>
+                                        </div>
+                                        <div class="border-bottom border-dark">
+                                            <a class="dropdown-item" href="#">Profile</a>
+                                        </div>
+                                        <div class="">
+                                            <a class="dropdown-item" href="#">Help</a>
+                                            <a class="dropdown-item" href="#">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            {% endblock %}
+            {% block content %} {% endblock %}
+            {% block footer %}
+                <section class="bg-light overflow-hidden">
+                    <div class="row border-top border-dark" style="background-color: #fae6cd;">
+                    <div class="col-12 col-md-5 col-lg-3 footer_left px-12 py-20">
+                        <div class="mw-xs mx-auto">
+                        <a class="d-inline-block mb-12" href="#">
+                            <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/logos/yofte-logo.svg' %}" alt="">
+                        </a>
+                        <div class="mb-12 font-semibold">
+                            <p>Headquater</p>
+                            <p>Ottawa, Ontario, Canada</p>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- TODO Set correct links in footer -->
+                    <div class="col-12 col-lg-9 py-20 px-6 ps-lg-40 footer_right col-md-7">
+                        <div class="row pb-20 border-bottom border-dark">
+                        <div class="col-12 col-md-6 col-lg-4 mb-10 mb-lg-0">
+                            <h6 class="mb-8">Information</h6>
+                            <ul class="list-unstyled mb-0">
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Newsroom</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">About</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Careers</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4 mb-10 mb-lg-0">
+                            <h6 class="mb-8">Customer Service</h6>
+                            <ul class="list-unstyled mb-0">
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Report</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">FAQs</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <h6 class="mb-8">Contact Us</h6>
+                            <ul class="list-unstyled">
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="tel:+16138509660">Phone</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="mailto:mmedarajosiah@gmail.com">Email</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Facebook</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Instagram</a></li>
+                            <li class="mb-6"><a class="link-dark text-decoration-none" href="#">Twitter</a></li>
+                            </ul>
+                        </div>
+                        </div>
+                        <div class="position-relative mt-8 pb-lg-0 pb-0">
+                        <p>© Copyright 2021 Baba Barter</p>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+            {% endblock %}
+        </section>
+    </body>
+</html>

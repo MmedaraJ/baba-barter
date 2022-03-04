@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign Up - Baba Barter</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mmedara Josiah">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'baba_barter/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'baba_barter/css/signup.css' %}">
+    <link rel="icon" href="{% static 'baba_barter/favicon.ico' %}">
+    <script src="{% static 'baba_barter/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'baba_barter/js/signup.js' %}"></script>
+  </head>
+  <body style="background-color: #FDFCDC;">
+    <div class="">
+      <section class="py-20 overflow-hidden signup_main_background" style="background-color: #FDFCDC;">
+        <div class="position-relative container">
+          <div class="position-relative mw-4xl mx-auto">
+            <div class="position-absolute top-50 start-0 end-0 translate-middle-y border ms-n4 me-n4" style="height: 90%;"></div>
+            <div class="position-relative mx-auto py-28 px-4 border text-center sign_up_second_background border-dark" style="background-color: #fed9b7;">
+              <a class="d-inline-block h6 mb-12" href="{% url 'baba:intro' %}">
+                <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/logos/yofte-logo-white.svg' %}" alt="">
+              </a>
+              <h3 class="mb-10 text-black">Sign up with</h3>
+              <div class="position-relative mw-xl mx-auto">
+                <img class="d-none d-md-block position-absolute top-0 end-0 me-n80" src="{% static 'baba_barter/yofte-assets/elements/white-sign-line.svg' %}" alt="">
+                <img class="d-none d-md-block position-absolute bottom-0 start-0 ms-n80" src="{% static 'baba_barter/yofte-assets/elements/orange-sign-line.svg' %}" alt="">
+                <img class="d-none d-md-block position-absolute bottom-0 start-50 mb-n12 ms-64" src="{% static 'baba_barter/yofte-assets/elements/purple-sign-line.svg' %}" alt="">
+                <div class="row mb-10 justify-content-between pb-10 border-bottom border-dark">
+                  <div class="col-12 col-md-6 mb-2 mb-md-0">
+                    <a class="btn d-inline-flex align-items-center justify-content-center w-100 border rounded-3 border-dark" style="height: 64px;" href="#">
+                      <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/brands/google.svg' %}" alt="Google Logo">
+                      <span class="ms-4 tetx-uppercase fw-bold">Google</span>
+                    </a>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <a class="btn d-inline-flex align-items-center justify-content-center w-100 border rounded-3 border-dark" style="height: 64px;" href="#">
+                      <img class="img-fluid" src="{% static 'baba_barter/yofte-assets/brands/facebook2.svg' %}" alt="Facebook Logo">
+                      <span class="ms-4 text-uppercase fw-bold text-black">Facebook</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="mw-md mx-auto">
+                  <h5 class="mb-10 font-bold">Sign up with Email:</h5>
+                  <form action="{% url 'baba:process_signup' %}" method="post" enctype="multipart/form-data" data-dashlane-rid="4835c1b6fc4ac222" data-form-type="register" id="signup_form">
+                    {% csrf_token %}
+                    <input class="form-control mb-4 signup_first_name_input border-dark" type="text" name="signup_first_name_input" placeholder="First Name" data-form-type="text, new" required>
+                    <input class="form-control mb-4 signup_last_name_input border-dark" type="text" name="signup_last_name_input" placeholder="Last Name" data-form-type="text, new" required>
+                    <input class="form-control mb-4 signup_email_input border-dark" type="email" name="signup_email_input" placeholder="john@example.com" data-dashlane-rid="2a6ba70fbe7497ee" data-form-type="email, new" data-kwimpalastatus="alive" data-kwimpalaid="1645156458150-3" required>
+                    <input class="form-control mb-4 signup_date_of_birth_input border-dark" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="signup_date_of_birth_input" placeholder="Date of Birth" data-form-type="date, new" required>
+                    <textarea class="form-control mb-4 signup_description_input border-dark" form="signup_form" name="signup_description_input" placeholder="Describe your self.." data-form-type="text, new" rows="3" required></textarea>
+                    <input class="form-control mb-4 signup_image_input border-dark" type="file" accept="image/*" name="signup_image_input" placeholder="Profile Picture" data-form-type="file, new">
+                    <input class="form-control mb-4 signup_password_input border-dark" type="password" name="signup_password_input" placeholder="Password" data-dashlane-rid="642a14915f23d277" data-form-type="password,new" data-kwimpalastatus="alive" data-kwimpalaid="1645156458150-1" required>
+                    <input class="form-control mb-10 signup_repeat_password_input border-dark" type="password" name="signup_repeat_password_input" placeholder="Repeat password" data-dashlane-rid="4aedccbaaed70aa2" data-form-type="password,confirmation" data-kwimpalastatus="alive" data-kwimpalaid="1645156458150-2" required>
+                    <div class="form-check text-start" for="signup_consent">
+                      <input class="form-check-input" type="checkbox" name="signup_consent" data-dashlane-rid="bc1fc09b2d5c3757" data-form-type="consent,terms" required>
+                      <label class="form-check-label small text-black">By singning up, you agree to our Terms and Data Policy</label>
+                    </div>
+                    <button class="mt-12 mt-md-10 btn text-black signup_signup_button border-dark p-1" style="background-color: #f07167; height: 50px; width: 200px;" data-dashlane-rid="81b70ce9ebe21a51" data-form-type="action,register" data-dashlane-label="true">Sign up</button>
+                  </form>
+                </div>
+              </div>
+              <p class="mt-12 mt-md-6 small text-black signin_link">Or <a class="link-primary signing_link_a" style="color: #0081a7;" href="{% url 'baba:signin' %}">Sign In</a> if you have an account</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
