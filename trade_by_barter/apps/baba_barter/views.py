@@ -1,5 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render, reverse
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib import messages
 from .models import User, Swappable, SubCategory, Category, UserImage, SwappableImage
 import bcrypt
@@ -87,12 +88,23 @@ def signin(request):
 #if id=session[id], show edit profle link, else, hide it
 def show_user(request, id):
     if 'user_id' in request.session:
-        if request.session['user_id'] == id:
-            context = {
-                'user': User.objects.filter(id=id)[0]
-            }
-            return render(request, 'baba_barter/user_profile.html', context)
-    return redirect(reverse('baba:intro'))
+        #Use user information for navbar
+        #User's id = session[user_id]
+        context = {
+            'user': User.objects.filter(id=request.session['user_id'])[0],
+            'user_image': UserImage.objects.filter(user__id=request.session['user_id'])[0],
+            'user_swappable_count': Swappable.objects.filter(user__id=request.session['user_id']).count()
+        }
+        #If user is visiting another user, get information of visited user
+        #Visited user's id = id^
+        if request.session['user_id'] != id:
+            context['visited_user'] = User.objects.filter(id=id)[0]
+            context['visited_user_image'] = UserImage.objects.filter(user__id=id)[0]
+            context['visited_user_swappable_count'] = str(Swappable.objects.filter(user__id=id).count())
+        #get swappable count of session user
+        print(context)
+        return render(request, 'baba_barter/user_profile.html', context)
+    return redirect(reverse('baba:intro')) 
 
 @csrf_protect
 def edit_profile(request, id):
@@ -109,31 +121,41 @@ def edit_profile(request, id):
 #TODO change main to true
 def swappables(request, id):
     if 'user_id' in request.session:
-        if str(id) == str(request.session['user_id']):
-            swappables = Swappable.objects.filter(user__id=id)
-            swappable_images = SwappableImage.objects.filter(swappable__user__id=id, main=True)
-            both = zip(swappables, swappable_images)
+        owner = False
+        if str(id) == str(request.session['user_id']): owner = True
+        swappables = Swappable.objects.filter(user__id=id)
+        swappable_images = SwappableImage.objects.filter(swappable__user__id=id, main=True)
+        both = zip(swappables, swappable_images)
+        user_image = UserImage.objects.filter(user__id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
+        visited_user = User.objects.filter(id=id)[0]
+        if len(user_image) > 0 and len(user) > 0:
             context = {
-                'user': User.objects.filter(id=id)[0],
-                'user_image': UserImage.objects.filter(user__id=id)[0],
-                'both': both
+                'user': user[0],
+                'user_image': user_image[0],
+                'both': both,
+                'swappables': Swappable.objects.filter(user__id=id),
+                'swappable_images': SwappableImage.objects.filter(swappable__user__id=id, main=True),
+                'owner': owner,
+                'visited_user': visited_user
             }
             return render(request, 'baba_barter/swappables.html', context)
-        return redirect(reverse('baba:swappables', kwargs={'id':request.session['user_id']}))
+        return redirect(reverse('baba:intro'))
     return redirect(reverse('baba:intro'))
 
 #TODO add security measure like edit_profile
 def create_swappable(request, id):
     if 'user_id' in request.session:
+        context = {}
         if str(id) == str(request.session['user_id']):
-            context = {
-                'user': User.objects.filter(id=id)[0]
-            }
-            return render(request, 'baba_barter/create_swappable.html', context)
-        return redirect(reverse('baba:home', kwargs={'id':request.session['user_id']}))
+            context['user'] = User.objects.filter(id=id)[0]
+        else:
+            context['user'] = User.objects.filter(id=request.session['user_id'])[0]
+        return render(request, 'baba_barter/create_swappable.html', context)
     return redirect(reverse('baba:intro'))
 
 #TODO implement from is_deleted -- is_banned
+#TODO value f"{num:,}"
 def register_swappable(request, id):
     if 'user_id' in request.session:
         if id == request.session['user_id']:
@@ -167,9 +189,8 @@ def register_swappable(request, id):
                         swappable.sub_categories.add(sub_c)
                     swappable.save()
                     i = 0
-                    print(request.FILES.getlist('images'))
                     for img in request.FILES.getlist('images'):
-                        image_name = f"{request.POST['name']} - {i}"
+                        image_name = f"{request.POST['name']}-{i}"
                         main = True if i==0 else False
                         image = SwappableImage(name=image_name, image=img, swappable=swappable, main=main)
                         image.save()
@@ -183,24 +204,30 @@ def show_swappable(request, id):
     if 'user_id' in request.session:
         edit = False
         user = User.objects.filter(id=request.session['user_id'])[0]
-        swappable = Swappable.objects.filter(id=id)[0]
-        if swappable.user == user:
-            edit = True
-        context = {
-            "swappable": swappable,
-            "user": user,
-            "edit": edit
-        }
-        return render(request, 'baba_barter/show_swappable.html', context)
+        swappable = Swappable.objects.filter(id=id)
+        if len(swappable) > 0: 
+            swappable = swappable[0]
+            swappable_images = SwappableImage.objects.filter(swappable__id=id)
+            user_image = UserImage.objects.filter(user__id=user.id)[0]
+            if swappable.user == user:
+                edit = True
+            context = {
+                "swappable": swappable,
+                "user": user,
+                "edit": edit,
+                'swappable_images': swappable_images,
+                'user_image': user_image
+            }
+            return render(request, 'baba_barter/show_swappable.html', context)
     return redirect(reverse('baba:intro'))
 
 def edit_swappable(request, id):
     if 'user_id' in request.session:
         if len(Swappable.objects.filter(id=id)) > 0:
             swappable = Swappable.objects.filter(id=id)[0]
+            swappable_images = SwappableImage.objects.filter(swappable__id=id)
             user = swappable.user
-            if user.id == request.session['user_id']:
-                print(swappable.sub_categories)
+            if str(user.id) == request.session['user_id']:
                 swappable_sub_categories = swappable.sub_categories.all().values()
                 sub_categories = ""
                 for i in range(0, len(swappable_sub_categories)):
@@ -210,7 +237,8 @@ def edit_swappable(request, id):
                         sub_categories += swappable_sub_categories[i]['name'] + ', '
                 context = {
                     "swappable": swappable,
-                    "sub_categories": sub_categories
+                    "sub_categories": sub_categories,
+                    "swappable_images": swappable_images
                 }
                 return render(request, 'baba_barter/edit_swappable.html', context)
     return redirect(reverse('baba:intro'))
@@ -225,11 +253,12 @@ def update_swappable(request, id):
                         messages.error(request, v, extra_tags=k)
                     return redirect(reverse('baba:edit_swappable', kwargs={'id':id}))
                 else:
-                    swappable = Swappable.objects.filter(id=id)[0]
+                    swappable = Swappable.objects.filter(id=id)
+                    if len(swappable) > 0: swappable = swappable[0]
                     swappable.name = request.POST['name']
                     swappable.type = request.POST['type']
-                    category = Category.objects.filter(name=request.POST['category'])[0]
-                    swappable.category = category
+                    category = Category.objects.filter(name=request.POST['category'])
+                    if len(category) > 0: swappable.category = category[0]
                     swappable.short_description = request.POST['short_description']
                     swappable.long_description = request.POST['long_description']
                     swappable.notes = request.POST['notes']
@@ -237,6 +266,22 @@ def update_swappable(request, id):
                     swappable.currency = request.POST['currency']
                     swappable.condition = request.POST['condition']
                     swappable.save()
+                    #Make sure only one swappable image has main=True
+                    no_main_image = False
+                    if SwappableImage.objects.filter(swappable__id=id, main=True).count() < 1: no_main_image = True
+                    #use i to identify the first new image
+                    i = 0
+                    #use number_of_swappable_images to keep image naming incremental
+                    number_of_swappable_images = SwappableImage.objects.filter(swappable__id=id).count()
+                    for img in request.FILES.getlist('images'):
+                        number_of_swappable_images+=1
+                        image_name = f"{request.POST['name']}-{number_of_swappable_images}"
+                        main = False
+                        #if there is no main image, make the first of the new images the main one
+                        if no_main_image: main = True if i==0 else False
+                        image = SwappableImage(name=image_name, image=img, swappable=swappable, main=main)
+                        image.save()
+                        i+=1
                     messages.success(request, f'Swappable editted successfully', extra_tags='swappable_edit_sucess')
                     return redirect(reverse('baba:show_swappable', kwargs={'id':id}))
     return redirect(reverse('baba:intro'))
@@ -246,10 +291,45 @@ def privacy_policy(request):
 
 def home(request, id):
     if 'user_id' in request.session:
-        user = User.objects.filter(id=request.session['user_id'])[0]
-        if str(id) == str(user.id): 
+        user = User.objects.filter(id=request.session['user_id'])
+        if len(user) > 0:
+            user_image = UserImage.objects.filter(user__id=user[0].id)[0]
+            if str(id) == str(user[0].id): 
+                context = {
+                    'user': user[0],
+                    'user_image': user_image
+                }
+                return render(request, 'baba_barter/home.html', context)
+    return redirect(reverse('baba:intro'))
+
+@csrf_exempt
+def delete_swappable_images(request):
+    if request.method == 'POST':
+        for k, v in request.POST.items():
+            SwappableImage.objects.filter(id=v).delete()
+    return HttpResponse(True)
+
+#filter swapables on swappable page and home page
+def filter_swappables(request, id):
+    if 'user_id' in request.session:
+        if request.method == 'POST':
+            swappables = Swappable.objects.filter(user__id=id)
+            #Category filter
+            if request.POST['category_sort'] != '0':
+                swappables = swappables.filter(category__name=request.POST['category_sort'])
+            #Order filter
+            swappables = swappables.order_by(request.POST['order_sort'])
+            #Location filter
+            swappables = (swappables.filter(swappable_address__city__icontains=request.POST['location']) | \
+                swappables.filter(swappable_address__state__icontains=request.POST['location']) | \
+                swappables.filter(swappable_address__country__icontains=request.POST['location']) | \
+                swappables.filter(swappable_address__postalcode__icontains=request.POST['location'])).distinct()
+            #value filter
+            swappables = swappables.filter(value__lte=int(request.POST['value'])+1)
             context = {
-                'user': User.objects.filter(id=id)[0]
+                'swappables': swappables
             }
-            return render(request, 'baba_barter/home.html', context)
+            if len(swappables) < 1:
+                context['no_swappable_message'] = "No swappables match your search result"
+            return render(request, 'baba_barter/filtered_swappables.html', context)
     return redirect(reverse('baba:intro'))

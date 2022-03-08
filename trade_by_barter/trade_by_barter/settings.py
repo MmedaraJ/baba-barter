@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'crispy_forms',
     'social_django',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

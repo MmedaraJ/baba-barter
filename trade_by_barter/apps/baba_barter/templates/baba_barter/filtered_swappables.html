@@ -1,0 +1,17 @@
+{% if no_swappable_message %}
+    <p>{{no_swappable_message}}</p>
+{% else %}
+    {% for swappable in swappables %}
+        {% for swappable_image in swappable.swappable_image.all %}
+            <div class="col-4 col-sm-3 col-md-3 col-lg-2 mb-6">
+                <div class="border border-dark" style="background-color: #F07167; border-radius: 15px;">
+                    <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                        {% if swappable_image.main == True %}
+                            <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endif %}

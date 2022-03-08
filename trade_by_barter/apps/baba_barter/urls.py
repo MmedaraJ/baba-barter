@@ -20,7 +20,9 @@ urlpatterns = [
     url(r'^edit/swappable/(?P<id>\d+)$', views.edit_swappable, name='edit_swappable'),
     url(r'^create/swappable/(?P<id>\d+)$', views.create_swappable, name='create_swappable'),
     url(r'^update/swappable/(?P<id>\d+)$', views.update_swappable, name='update_swappable'),
+    url(r'^filter/swappables/(?P<id>\d+)$', views.filter_swappables, name='filter_swappables'),
     url(r'^register/swappable/(?P<id>\d+)$', views.register_swappable, name='register_swappable'),
+    url(r'^edit/swappable/delete/images/$', views.delete_swappable_images, name='delete_swappable_images'),
 ]
 
 if settings.DEBUG: 

@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
+from email.policy import default
 from django.db import models
 import re, bcrypt
+
+from django.forms import CharField
 import datetime
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -245,7 +248,7 @@ class Swappable(models.Model):
     objects = SwappableManager()
 
     def __str__(self) -> str:
-        return f"{self.name} - {self.short_description}"
+        return f"{self.name}-{self.short_description}"
 
 class SwappableImageManager(models.Manager):
     def swappable_image_validations(self):
@@ -256,6 +259,7 @@ class SwappableImage(models.Model):
     image = models.ImageField(upload_to='swappable_images/', default="")
     swappable = models.ForeignKey(Swappable, related_name='swappable_image', on_delete=models.CASCADE)
     main = models.BooleanField(default=False)
+    selected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = SwappableImageManager()
@@ -271,9 +275,27 @@ class UserImage(models.Model):
     name = models.CharField(max_length=20)
     image = models.ImageField(upload_to='user_images/', default="")
     user = models.ForeignKey(User, related_name='user_image', on_delete=models.CASCADE)
+    selected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserImageManager()
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+class SwappableAddressManager(models.Manager):
+    def swappable_address_validations(self):
+        return
+
+class SwappableAddress(models.Model):
+    swappable = models.ForeignKey(Swappable, related_name='swappable_address', on_delete=models.CASCADE)
+    city = models.CharField(max_length=100, default="")
+    state = models.CharField(max_length=100, default="")
+    country = models.CharField(max_length=100, default="")
+    postalcode = models.CharField(max_length=20, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = SwappableAddressManager()
+
+    def __str__(self) -> str:
+        return f"{self.swappable}-{self.city}-{self.state}-{self.country}-{self.postalcode}"

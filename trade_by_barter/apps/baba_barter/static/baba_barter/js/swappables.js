@@ -38,3 +38,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+function filterSwappables(){
+    $.ajax({
+        method: $('#filter_swappables_form').attr('method'),
+        url: $('#filter_swappables_form').attr('action'),
+        data: $('#filter_swappables_form').serialize(),
+        success: function(response){
+            console.log(response);
+            $('#placeholder').html(response)
+        }
+    });
+    return false;
+}
+
+$(document).ready(function(){
+    $('select[name=category_sort], select[name=order_sort], input[name=value]').on("change", function(){
+        filterSwappables();
+    });
+    $('#location').on("keyup", function(){
+        filterSwappables();
+    });
+});
