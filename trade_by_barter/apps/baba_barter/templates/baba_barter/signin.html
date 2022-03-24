@@ -49,8 +49,26 @@
                   <form action="{% url 'baba:process_signin' %}" method="post" data-dashlane-rid="4835c1b6fc4ac222" data-form-type="register">
                     {% csrf_token %}
                     <!-- TODO Dispplay error messages -->
-                    <input class="form-control mb-4 signin_email_input border-dark" type="email" name="signin_email_input" placeholder="john@example.com" data-dashlane-rid="2a6ba70fbe7497ee" data-form-type="email" data-kwimpalastatus="alive" data-kwimpalaid="1645148439110-5">
-                    <input class="form-control mb-4 signin_password_input border-dark" type="password" name="signin_password_input" placeholder="Password" data-dashlane-rid="642a14915f23d277" data-form-type="password,new" data-kwimpalastatus="alive" data-kwimpalaid="1645148439110-4">
+                    <div class="mb-4">
+                      <input class="form-control signin_email_input border-dark" type="email" name="signin_email_input" placeholder="john@example.com" data-dashlane-rid="2a6ba70fbe7497ee" data-form-type="email" data-kwimpalastatus="alive" data-kwimpalaid="1645148439110-5">
+                      {%if messages%}
+                        {%for message in messages%}
+                          {% if 'signin_email_input' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                          {% endif %}
+                        {%endfor%}
+                      {%endif%}
+                    </div>
+                    <div class="mb-4">
+                      <input class="form-control signin_password_input border-dark" type="password" name="signin_password_input" placeholder="Password" data-dashlane-rid="642a14915f23d277" data-form-type="password,new" data-kwimpalastatus="alive" data-kwimpalaid="1645148439110-4">
+                      {%if messages%}
+                        {%for message in messages%}
+                          {% if 'signin_password_input' in message.extra_tags %}
+                            <small style="color: red;" class="{{message.tags}}">{{message}}</small>
+                          {% endif %}
+                        {%endfor%}
+                      {%endif%}
+                    </div>
                     <button class="mt-12 mt-md-10 btn text-black signin_signin_button border-dark p-1" style="background-color: #f07167; width: 200px; height: 50px;" data-dashlane-rid="81b70ce9ebe21a51" data-form-type="action,register" data-dashlane-label="true">Sign in</button>
                   </form>
                 </div>

@@ -127,7 +127,88 @@ class UserManager(models.Manager):
                     errors['sign_in_password'] = "Incorrect password"
         return errors
 
-#TODO add session to user and make session table
+    def edit_profile_validations(self, post_data, request) -> dict:
+        errors={}
+        first_name = self.validate_first_name_edit(post_data, errors)
+        last_name = self.validate_last_name_edit(post_data, errors)
+        description = self.validate_description_edit(post_data, errors)
+        email = self.validate_email_edit(post_data, errors, request)
+        password = self.validate_password_edit(post_data, errors, request)
+        return {**first_name, **last_name, **description, **email, **password}
+
+    def validate_first_name_edit(self, post_data, errors) -> dict:
+        if len(post_data['edit_first_name']) < 1:
+            errors['edit_first_name'] = "First name cannot be empty"
+        elif len(post_data['edit_first_name']) < 2:
+            errors['edit_first_name'] = "First name must contain at least two letters"
+        else: 
+            for s in post_data['edit_first_name']:
+                if not s.isalpha() and s!='-':
+                    errors['edit_first_name'] = "First name must only include letters or '-'"
+                    break
+        return errors
+
+    def validate_last_name_edit(self, post_data, errors) -> dict:
+        if len(post_data['edit_last_name']) < 1:
+            errors['edit_last_name'] = "Last name cannot be empty"
+        elif len(post_data['edit_last_name']) < 2:
+            errors['edit_last_name'] = "Last name must contain at least two letters"
+        else: 
+            for s in post_data['edit_last_name']:
+                if not s.isalpha() and s!='-':
+                    errors['edit_last_name'] = "Last name must only include letters or '-'"
+                    break
+        return errors
+
+    def validate_email_edit(self, post_data, errors, request) -> dict: 
+        if len(post_data['edit_email']) < 1:
+            errors['edit_email'] = "Email cannot be empty"
+        elif not EMAIL_REGEX.match(post_data['edit_email']):
+            errors['edit_email'] = 'Invalid email address'
+        else: 
+            this_user = User.objects.filter(id=request.session['user_id'])
+            if len(this_user) > 0:
+                if this_user[0].email != post_data['edit_email']:
+                    user = User.objects.filter(email=post_data['edit_email'])
+                    if len(user) > 0: 
+                        errors['edit_email'] = 'Email address already exists'
+        return errors
+
+    #TODO Filter profanity
+    def validate_description_edit(self, post_data, errors) -> dict:
+        if len(post_data['edit_description']) < 1:
+            errors['edit_description'] = "Description cannot be empty"
+        elif len(post_data['edit_description']) < 3:
+            errors['edit_description'] = "Description must contain at least three characters"
+        return errors
+
+    def validate_password_edit(self, post_data, errors, request) -> dict:
+        if len(post_data['edit_new_password']) > 0:
+            user = User.objects.filter(id=request.session['user_id'])[0]
+            if bcrypt.checkpw(post_data['edit_current_password'].encode(), user.password_hash.encode()): 
+                if len(post_data['edit_new_password']) > 0:
+                    if len(post_data['edit_new_password']) < 9:
+                        errors['edit_new_password'] = "Password must contain more than 8 characters"
+                    else:
+                        up = False
+                        num = False
+                        for s in post_data['edit_new_password']:
+                            if s.isupper(): up = True
+                            if s.isdigit(): num = True
+                        if not up:
+                            errors['edit_new_password'] = "Password must contain at least one uppercase letter"
+                        elif not num:
+                            errors['edit_new_password'] = "Password must contain at least one numerical value"
+                if len(errors) == 0:
+                    if len(post_data['edit_new_password_confirmation']) < 1:
+                        errors['edit_new_password_confirmation'] = "Confirm password cannot be empty"
+                    elif post_data['edit_new_password_confirmation'] != post_data['edit_new_password']:
+                        errors['edit_new_password_confirmation'] = "Confirm password is not the same as new password"
+            else:
+                errors['edit_current_password'] = "Incorrect password"
+        return errors
+
+#TODO add language, work, location when needed
 class User(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
@@ -136,6 +217,7 @@ class User(models.Model):
     phone_number = models.CharField(max_length=20, default="")
     date_of_birth = models.DateField(max_length=20)
     description = models.TextField(max_length=255, default="")
+    gender = models.CharField(max_length=10, default="")
     token_count = models.IntegerField(default=0)
     access_level = models.IntegerField(default=1)
     score = models.IntegerField(default=100)
@@ -155,6 +237,7 @@ class CategoryManager(models.Manager):
     def category_validations(self):
         return
 
+#change users->users_who_own and add users_who_want
 class Category(models.Model):
     name = models.CharField(max_length=20)
     users = models.ManyToManyField(User, related_name="users", default="")
@@ -194,37 +277,43 @@ class SwappableManager(models.Manager):
 
     def validate_name(self, post_data, errors) -> dict:
         if len(post_data['name']) < 1:
-            errors['name'] = "Name cannot be empty"
+            errors['swappable_name'] = "Name cannot be empty"
         return errors
 
     def validate_type(self, post_data, errors) -> dict:
         if post_data['type'] == "none":
-            errors['type'] = "Select Product or Category"
+            errors['swappable_type'] = "Select Product or Category"
         return errors
 
     def validate_category(self, post_data, errors) -> dict:
         if post_data['category'] == "none":
-            errors['category'] = "Select a category"
+            errors['swappable_category'] = "Select a category"
         return errors
 
     def validate_short_description(self, post_data, errors) -> dict:
         if len(post_data['short_description']) < 1:
-            errors['short_description'] = "Short description cannot be empty"
+            errors['swappable_short_description'] = "Short description cannot be empty"
         return errors
 
     def validate_long_description(self, post_data, errors) -> dict:
         if len(post_data['long_description']) < 1:
-            errors['long_description'] = "Long description cannot be empty"
+            errors['swappable_long_description'] = "Long description cannot be empty"
         return errors
 
     def validate_value(self, post_data, errors) -> dict:
         if len(post_data['value']) < 1:
-            errors['value'] = "Value cannot be empty"
+            errors['swappable_value'] = "Value cannot be empty"
+        return errors
+
+    def validate_images(self, post_files) -> dict:
+        errors = {}
+        if len(post_files.getlist('images')) < 0:
+            errors['swappable_images'] = "You must select a .png image"
         return errors
 
     def validate_currency(self, post_data, errors) -> dict:
         if post_data['currency'] == "none":
-            errors['currency'] = "Select a currency"
+            errors['swappable_currency'] = "Select a curency"
         return errors
 
 class Swappable(models.Model):
@@ -275,7 +364,6 @@ class UserImage(models.Model):
     name = models.CharField(max_length=20)
     image = models.ImageField(upload_to='user_images/', default="")
     user = models.ForeignKey(User, related_name='user_image', on_delete=models.CASCADE)
-    selected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserImageManager()
@@ -284,18 +372,84 @@ class UserImage(models.Model):
         return f"{self.name}"
 
 class SwappableAddressManager(models.Manager):
-    def swappable_address_validations(self):
-        return
+    def swappable_address_validations(self, post_data) -> dict:
+        errors={}
+        city = self.validate_city(post_data, errors)
+        state = self.validate_state(post_data, errors)
+        country = self.validate_country(post_data, errors)
+        return {**city, **state, **country}
+
+    def validate_city(self, post_data, errors) -> dict:
+        if len(post_data['city']) < 1:
+            errors['swappable_city'] = "City cannot be empty"
+        return errors
+
+    def validate_state(self, post_data, errors) -> dict:
+        if len(post_data['state']) < 1:
+            errors['swappable_state'] = "State cannot be empty"
+        return errors
+
+    def validate_country(self, post_data, errors) -> dict:
+        if post_data['country'] == 'none':
+            errors['swappable_country'] = "You must select a country"
+        return errors
 
 class SwappableAddress(models.Model):
     swappable = models.ForeignKey(Swappable, related_name='swappable_address', on_delete=models.CASCADE)
     city = models.CharField(max_length=100, default="")
     state = models.CharField(max_length=100, default="")
     country = models.CharField(max_length=100, default="")
-    postalcode = models.CharField(max_length=20, default="")
+    code = models.CharField(max_length=20, default="")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = SwappableAddressManager()
 
     def __str__(self) -> str:
-        return f"{self.swappable}-{self.city}-{self.state}-{self.country}-{self.postalcode}"
+        location = ""
+        if len(self.city) > 0:
+            location += self.city
+        elif len(self.state) > 0:
+            location += ", " + self.state
+        elif len(self.country) > 0:
+            location += ", " + self.country
+        elif len(self.code) > 0:
+            location += ", " + self.code
+        return location
+
+class UserFlagManager(models.Manager):
+    def user_flag_validations(self, post_data) -> dict:
+        errors = {}
+        message = self.validate_message(post_data, errors)
+        return {**message}
+    
+    def validate_message(self, post_data, errors) -> dict:
+        if len(post_data['report_user_message']) < 1:
+            errors['report_user_message'] = "Message cannot be empty"
+        return errors
+
+class UserFlag(models.Model):
+    flagged_user = models.ForeignKey(User, related_name='flagged_user_flag', on_delete=models.CASCADE)
+    flagger_user = models.ForeignKey(User, related_name='flagger_user_flag', on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = UserFlagManager()
+
+    def __str__(self) -> str:
+        return f"{self.flagged_user.first_name} was reported by {self.flagger_user.first_name}"
+
+class UserFlagImageManager(models.Manager):
+    def user_flag_image_validations(self):
+        return
+
+class UserFlagImage(models.Model):
+    name = models.CharField(max_length=20)
+    image = models.ImageField(upload_to='report_user_images/', default="")
+    user_flag = models.ForeignKey(UserFlag, related_name='user_flag_image', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = UserFlagImageManager()
+
+    def __str__(self) -> str:
+        return f"{self.name}"

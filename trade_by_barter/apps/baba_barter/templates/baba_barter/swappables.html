@@ -21,30 +21,33 @@
     {% endif %}
   {% endblock %}
   {% block content %}
-    <div class="container py-20">
+    <div class="container py-16" id="main">
       {% if swappable_images|length > 0 %}
         {% if owner == True %}
-          {% include 'baba_barter/filter.html' with title="Your swappables" id=user.id %}
+          {% include 'baba_barter/filter.html' with title="Your swappables" action="filter/swappables/"|add:user.id id=user.id max_value=max_value %}
+          <p class="d-none" id="holder" data-id="{{user.id}}"></p>
         {% else %}
-            {% include 'baba_barter/filter.html' with title=visited_user.first_name|add:"'s swappables" id=visited_user.id %}
+          {% include 'baba_barter/filter.html' with title=visited_user.first_name|add:"'s swappables" action="filter/swappables/"|add:visited_user.id id=visited_user.id max_value=max_value %}
+          <p class="d-none" id="holder" data-id="{{visited_user.id}}"></p>
         {% endif %}
-        <div class="row mb-24">
+        <div class="row mb-12">
           <div class="col-12 px-3">
-            <div class="row" id="placeholer">
-              {% for swappable, swappable_image in both %}
-                <div class="col-4 col-sm-3 col-md-3 col-lg-2 mb-6">
-                  <div class="border border-dark" style="background-color: #F07167; border-radius: 15px;">
-                    <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
-                      <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="">
-                    </a>
-                  </div>
-                </div>
+            <div class="row" id="placeholder">
+              {% for swappable in swappables %}
+                {% for swappable_image in swappable.swappable_image.all %}
+                  {% if swappable_image.main == True %}
+                      <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-6">
+                          <div class="border border-dark" style="background-color: grey; border-radius: 15px;">
+                              <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                                  <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                              </a>
+                          </div>
+                      </div>
+                  {% endif %}
+                {% endfor %}
               {% endfor %}
             </div>
           </div>
-        </div>
-        <div class="text-center">
-          <a class="btn btn-primary" href="#">Show More</a>
         </div>
       {% else %}
         <p>You have no swappables</p>

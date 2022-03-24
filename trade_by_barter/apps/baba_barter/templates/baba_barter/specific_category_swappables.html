@@ -1,0 +1,52 @@
+{% extends 'baba_barter/base.html' %} 
+{% block title %} Your Swappables - Baba Barter {% endblock %}
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/specific_category_swappables.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/specific_category_swappables.js' %}"></script> {% endblock %}
+
+{% if user %}
+  {% block name %} <span class="me-2">{{user.first_name}}</span> {% endblock %}
+  {% block image %} 
+    {% if user_image %}
+      <img class="img-fluid" id="profile_image" src="{{user_image.image.url}}" alt="" width="40px" height="40px">
+    {% else %}
+      <img class="img-fluid" id="profile_image" src="{% static 'baba_barter/yofte-assets/images/product-bottle.png' %}" alt="" width="40px" height="40px">
+    {% endif %}
+  {% endblock %}
+  {% block image_burger %} 
+    {% if user_image %}
+      <img class="img-fluid" id="profile_image" src="{{user_image.image.url}}" alt="" width="40px" height="40px">
+    {% else %}
+      <img class="img-fluid" id="profile_image" src="{% static 'baba_barter/yofte-assets/images/product-bottle.png' %}" alt="" width="40px" height="40px">
+    {% endif %}
+  {% endblock %}
+  {% block content %}
+    <div class="container py-16">
+      {% if swappables %}
+        {% include 'baba_barter/filter.html' with title=category.name|title action="filter/compare/swappables/"|add:category.id  id=category.id max_value=max_value %}
+        <p class="d-none" id="holder" data-id="{{category.id}}"></p>
+        <div class="row mb-12">
+          <div class="col-12 px-3">
+            <div class="row" id="placeholder">
+              {% for swappable in swappables %}
+                  {% for swappable_image in swappable.swappable_image.all %}
+                      {% if swappable_image.main == True %}
+                          <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-6">
+                              <div class="border border-dark" style="background-color: grey; border-radius: 15px;">
+                                  <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                                      <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                  </a>
+                              </div>
+                          </div>
+                      {% endif %}
+                  {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <p>No swappables in this category</p>
+      {% endif %}
+    </div>
+  {% endblock %}
+{% endif %}

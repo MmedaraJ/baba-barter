@@ -2,7 +2,7 @@
     <!DOCTYPE html>
     <html lang="en">
     <head>
-        <title>Edit Swappable</title>
+        <title>Edit Swappable - Baba Barter</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
@@ -17,132 +17,558 @@
         <script src="{% static 'baba_barter/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'baba_barter/js/edit_swappable.js' %}"></script>
     </head>
-    <body style="background-color: #FDFCDC;">
-        <div class="position-relative container-fluid" style="background-color: #FDFCDC;">
+    <body style="background-color: #ffffff;">
+        <div class="position-relative container-fluid" style="background-color: #ffffff;">
         <div class="row">
             <div class="col-12 col-md-6 mb-12 mb-lg-0 pt-20 py-lg-32 intro pt-md-7 px-10 px-lg-16">
-            <h5 class="mb-10 font-bold">Create Swappable:</h5>
+            <h5 class="mb-10 font-bold">Edit Swappable:</h5>
             <form action="{% url 'baba:update_swappable' id=swappable.id %}" method="post" enctype="multipart/form-data" data-form-type="register" id="create_swappable_form">
                 {% csrf_token %}
-                <!-- TODO Display error messages -->
-                <input class="form-control mb-4 border-dark" type="text" name="name" value="{{swappable.name}}" data-form-type="text" required>
-                <select class="form-control mb-4 border-dark type" name="type" id="type" required>
-                    <option value="product" {% if swappable.type == 'product' %} selected {% endif %}>Product</option>
-                    <option value="service" {% if swappable.type == 'service' %} selected {% endif %}>Service</option>
-                </select>
-                <select class="form-control mb-4 border-dark category" name="category" id="category" required>
-                    <option value="shoe" {% if swappable.category.name == 'shoe' %} selected {% endif %}>Shoe</option>
-                    <option value="clothing" {% if swappable.category.name == 'clothing' %} selected {% endif %}>Clothing</option>
-                    <option value="technology" {% if swappable.category.name == 'technology' %} selected {% endif %}>Technology</option>
-                    <option value="fashion" {% if swappable.category.name == 'fashion' %} selected {% endif %}>Fashion</option>
-                    <option value="other" {% if swappable.category.name == 'other' %} selected {% endif %}>Other</option>
-                </select>
-                {% if sub_categories %}
-                    <input class="form-control mb-4 border-dark" type="text" name="sub_categories" data-form-type="text" value="{{sub_categories}}">
-                {% endif %}
-                <input class="form-control mb-4 border-dark" type="text" name="short_description" data-form-type="text" value="{{swappable.short_description}}" required>
-                <textarea class="form-control mb-4 border-dark long_description" form="create_swappable_form" name="long_description" data-form-type="text, new" rows="3">{{swappable.long_description}}</textarea>
-                <textarea class="form-control mb-4 border-dark notes" form="create_swappable_form" name="notes" data-form-type="text, new" rows="2">{{swappable.notes}}</textarea>
-                <input class="form-control mb-4 border-dark" type="file" accept="image/*" name="images" data-form-type="file" multiple>
-                {% if swappable_images %}
-                    <div class="" id="swappable_images">
-                        <div class="row">
-                            {% for swappable_image in swappable_images %}
-                                <div class="col-6 col-sm-3 col-md-4 col-lg-3 mb-4">
-                                    <img class="w-100 h-100 img-fluid swappable_image" id="{{swappable_image.id}}" style="object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.swappable.name}}">
-                                </div>
-                            {% endfor %}
+                <div class="mb-6">
+                    <div class="mb-4">
+                        <input class="form-control border-dark" type="text" name="name" value="{{swappable.name}}" data-form-type="text" required>
+                        {%if messages%}
+                          {%for message in messages%}
+                            {% if 'swappable_name' in message.extra_tags %}
+                              <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                            {% endif %}
+                          {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                          <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
                         </div>
                     </div>
-                {% endif %}
-                <div class="row align-items-center justify-content-between mx-auto" id="image_action" style="display: none;">
-                    <button class="btn btn-primary fw-bold mb-4 me-sm-2 p-1" id="cancel_delete" style="height: 50px; color: #0081A7;">Cancel</button>
-                    <button class="btn btn-outline-primary fw-bold mb-4 p-1" id="delete" style="height: 50px; color: #0081A7;">Delete</button>
+                    <div class="mb-4">
+                        <select class="form-control border-dark type" name="type" id="type" required>
+                            <option value="product" {% if swappable.type == 'product' %} selected {% endif %}>Product</option>
+                            <option value="service" {% if swappable.type == 'service' %} selected {% endif %}>Service</option>
+                        </select>
+                        {%if messages%}
+                          {%for message in messages%}
+                            {% if 'swappable_type' in message.extra_tags %}
+                              <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                            {% endif %}
+                          {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                          <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <select class="form-control border-dark category" name="category" id="category" required>
+                            <option value="shoe" {% if swappable.category.name == 'shoe' %} selected {% endif %}>Shoe</option>
+                            <option value="clothing" {% if swappable.category.name == 'clothing' %} selected {% endif %}>Clothing</option>
+                            <option value="technology" {% if swappable.category.name == 'technology' %} selected {% endif %}>Technology</option>
+                            <option value="fashion" {% if swappable.category.name == 'fashion' %} selected {% endif %}>Fashion</option>
+                            <option value="other" {% if swappable.category.name == 'other' %} selected {% endif %}>Other</option>
+                        </select>
+                        {%if messages%}
+                          {%for message in messages%}
+                            {% if 'swappable_category' in message.extra_tags %}
+                              <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                            {% endif %}
+                          {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                          <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        {% if sub_categories %}
+                            <input class="form-control border-dark" type="text" name="sub_categories" maxlength="30" data-form-type="text" value="{{sub_categories}}">
+                        {% else %}
+                            <input class="form-control border-dark" type="text" name="sub_categories" maxlength="30" data-form-type="text">
+                        {% endif %}
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_sub_categories' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <input class="form-control border-dark" type="text" name="short_description" maxlength="30" data-form-type="text" value="{{swappable.short_description}}" required>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_short_description' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <textarea class="form-control border-dark long_description" form="create_swappable_form" name="long_description" data-form-type="text, new" rows="3">{{swappable.long_description}}</textarea>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_long_description' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <textarea class="form-control border-dark notes" form="create_swappable_form" name="notes" data-form-type="text, new" rows="2">{{swappable.notes}}</textarea>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_notes' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <input class="form-control mb-4 border-dark" type="file" accept="image/*" name="images" data-form-type="file" multiple>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_images' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 mb-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                        {% if swappable_images %}
+                            <div class="" id="swappable_images">
+                                <div class="row">
+                                    {% for swappable_image in swappable_images %}
+                                        <div class="col-6 col-sm-3 col-md-4 col-lg-3 mb-4">
+                                            <img class="w-100 h-100 img-fluid swappable_image" id="{{swappable_image.id}}" style="object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.swappable.name}}">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="row align-items-center justify-content-between mx-auto" id="image_action" style="display: none;">
+                        <button class="btn btn-primary fw-bold mb-4 me-sm-2 p-1" id="cancel_delete" style="height: 50px; color: #0081A7;">Cancel</button>
+                        <button class="btn btn-outline-primary fw-bold mb-4 p-1" id="delete" style="height: 50px; color: #0081A7;">Delete</button>
+                    </div>
+                    <div class="mb-4">
+                        <input class="form-control border-dark" type="number" name="value" data-form-type="number" value="{{swappable.value}}" required>
+                        {%if messages%}
+                            {%for message in messages%}
+                                {% if 'swappable_value' in message.extra_tags %}
+                                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                                {% endif %}
+                            {%endfor%}
+                        {%endif%}
+                        <div class="p-4 mt-2 mb-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <select class="form-control border-dark currency" name="currency" id="currency" required>
+                            <option value="USD" {% if swappable.currency == 'USD' %} selected {% endif %}>United States Dollars</option>
+                            <option value="EUR" {% if swappable.currency == 'EUR' %} selected {% endif %}>Euro</option>
+                            <option value="GBP" {% if swappable.currency == 'GBP' %} selected {% endif %}>United Kingdom Pounds</option>
+                            <option value="DZD" {% if swappable.currency == 'DZD' %} selected {% endif %}>Algeria Dinars</option>
+                            <option value="ARP" {% if swappable.currency == 'ARP' %} selected {% endif %}>Argentina Pesos</option>
+                            <option value="AUD" {% if swappable.currency == 'AUD' %} selected {% endif %}>Australia Dollars</option>
+                            <option value="ATS" {% if swappable.currency == 'ATS' %} selected {% endif %}>Austria Schillings</option>
+                            <option value="BSD" {% if swappable.currency == 'BSD' %} selected {% endif %}>Bahamas Dollars</option>
+                            <option value="BBD" {% if swappable.currency == 'BBD' %} selected {% endif %}>Barbados Dollars</option>
+                            <option value="BEF" {% if swappable.currency == 'BEF' %} selected {% endif %}>Belgium Francs</option>
+                            <option value="BMD" {% if swappable.currency == 'BMD' %} selected {% endif %}>Bermuda Dollars</option>
+                            <option value="BRR" {% if swappable.currency == 'BRR' %} selected {% endif %}>Brazil Real</option>
+                            <option value="BGL" {% if swappable.currency == 'BGL' %} selected {% endif %}>Bulgaria Lev</option>
+                            <option value="CAD" {% if swappable.currency == 'CAD' %} selected {% endif %}>Canada Dollars</option>
+                            <option value="CLP" {% if swappable.currency == 'CLP' %} selected {% endif %}>Chile Pesos</option>
+                            <option value="CNY" {% if swappable.currency == 'CNY' %} selected {% endif %}>China Yuan Renmimbi</option>
+                            <option value="CYP" {% if swappable.currency == 'CYP' %} selected {% endif %}>Cyprus Pounds</option>
+                            <option value="CSK" {% if swappable.currency == 'CSK' %} selected {% endif %}>Czech Republic Koruna</option>
+                            <option value="DKK" {% if swappable.currency == 'DKK' %} selected {% endif %}>Denmark Kroner</option>
+                            <option value="NLG" {% if swappable.currency == 'NLG' %} selected {% endif %}>Dutch Guilders</option>
+                            <option value="XCD" {% if swappable.currency == 'XCD' %} selected {% endif %}>Eastern Caribbean Dollars</option>
+                            <option value="EGP" {% if swappable.currency == 'EGP' %} selected {% endif %}>Egypt Pounds</option>
+                            <option value="FJD" {% if swappable.currency == 'FJD' %} selected {% endif %}>Fiji Dollars</option>
+                            <option value="FIM" {% if swappable.currency == 'FIM' %} selected {% endif %}>Finland Markka</option>
+                            <option value="FRF" {% if swappable.currency == 'FRF' %} selected {% endif %}>France Francs</option>
+                            <option value="DEM" {% if swappable.currency == 'DEM' %} selected {% endif %}>Germany Deutsche Marks</option>
+                            <option value="XAU" {% if swappable.currency == 'XAU' %} selected {% endif %}>Gold Ounces</option>
+                            <option value="GRD" {% if swappable.currency == 'GRD' %} selected {% endif %}>Greece Drachmas</option>
+                            <option value="HKD" {% if swappable.currency == 'HKD' %} selected {% endif %}>Hong Kong Dollars</option>
+                            <option value="HUF" {% if swappable.currency == 'HUF' %} selected {% endif %}>Hungary Forint</option>
+                            <option value="ISK" {% if swappable.currency == 'ISK' %} selected {% endif %}>Iceland Krona</option>
+                            <option value="INR" {% if swappable.currency == 'INR' %} selected {% endif %}>India Rupees</option>
+                            <option value="IDR" {% if swappable.currency == 'IDR' %} selected {% endif %}>Indonesia Rupiah</option>
+                            <option value="IEP" {% if swappable.currency == 'IEP' %} selected {% endif %}>Ireland Punt</option>
+                            <option value="ILS" {% if swappable.currency == 'ILS' %} selected {% endif %}>Israel New Shekels</option>
+                            <option value="ITL" {% if swappable.currency == 'ITL' %} selected {% endif %}>Italy Lira</option>
+                            <option value="JMD" {% if swappable.currency == 'JMD' %} selected {% endif %}>Jamaica Dollars</option>
+                            <option value="JPY" {% if swappable.currency == 'JPY' %} selected {% endif %}>Japan Yen</option>
+                            <option value="JOD" {% if swappable.currency == 'JOD' %} selected {% endif %}>Jordan Dinar</option>
+                            <option value="KRW" {% if swappable.currency == 'KRW' %} selected {% endif %}>Korea (South) Won</option>
+                            <option value="LBP" {% if swappable.currency == 'LBP' %} selected {% endif %}>Lebanon Pounds</option>
+                            <option value="LUF" {% if swappable.currency == 'LUF' %} selected {% endif %}>Luxembourg Francs</option>
+                            <option value="MYR" {% if swappable.currency == 'MYR' %} selected {% endif %}>Malaysia Ringgit</option>
+                            <option value="MXP" {% if swappable.currency == 'MXP' %} selected {% endif %}>Mexico Pesos</option>
+                            <option value="NLG" {% if swappable.currency == 'NLG' %} selected {% endif %}>Netherlands Guilders</option>
+                            <option value="NZD" {% if swappable.currency == 'NZD' %} selected {% endif %}>New Zealand Dollars</option>
+                            <option value="NOK" {% if swappable.currency == 'NOK' %} selected {% endif %}>Norway Kroner</option>
+                            <option value="PKR" {% if swappable.currency == 'PKR' %} selected {% endif %}>Pakistan Rupees</option>
+                            <option value="XPD" {% if swappable.currency == 'XPD' %} selected {% endif %}>Palladium Ounces</option>
+                            <option value="PHP" {% if swappable.currency == 'PHP' %} selected {% endif %}>Philippines Pesos</option>
+                            <option value="XPT" {% if swappable.currency == 'XPT' %} selected {% endif %}>Platinum Ounces</option>
+                            <option value="PLZ" {% if swappable.currency == 'PLZ' %} selected {% endif %}>Poland Zloty</option>
+                            <option value="PTE" {% if swappable.currency == 'PTE' %} selected {% endif %}>Portugal Escudo</option>
+                            <option value="ROL" {% if swappable.currency == 'ROL' %} selected {% endif %}>Romania Leu</option>
+                            <option value="RUR" {% if swappable.currency == 'RUR' %} selected {% endif %}>Russia Rubles</option>
+                            <option value="SAR" {% if swappable.currency == 'SAR' %} selected {% endif %}>Saudi Arabia Riyal</option>
+                            <option value="XAG" {% if swappable.currency == 'XAG' %} selected {% endif %}>Silver Ounces</option>
+                            <option value="SGD" {% if swappable.currency == 'SGD' %} selected {% endif %}>Singapore Dollars</option>
+                            <option value="SKK" {% if swappable.currency == 'SKK' %} selected {% endif %}>Slovakia Koruna</option>
+                            <option value="ZAR" {% if swappable.currency == 'ZAR' %} selected {% endif %}>South Africa Rand</option>
+                            <option value="KRW" {% if swappable.currency == 'KRW' %} selected {% endif %}>South Korea Won</option>
+                            <option value="ESP" {% if swappable.currency == 'ESP' %} selected {% endif %}>Spain Pesetas</option>
+                            <option value="XDR" {% if swappable.currency == 'XDR' %} selected {% endif %}>Special Drawing Right (IMF)</option>
+                            <option value="SDD" {% if swappable.currency == 'SDD' %} selected {% endif %}>Sudan Dinar</option>
+                            <option value="SEK" {% if swappable.currency == 'SEK' %} selected {% endif %}>Sweden Krona</option>
+                            <option value="CHF" {% if swappable.currency == 'CHF' %} selected {% endif %}>Switzerland Francs</option>
+                            <option value="TWD" {% if swappable.currency == 'TWD' %} selected {% endif %}>Taiwan Dollars</option>
+                            <option value="THB" {% if swappable.currency == 'THB' %} selected {% endif %}>Thailand Baht</option>
+                            <option value="TTD" {% if swappable.currency == 'TTD' %} selected {% endif %}>Trinidad and Tobago Dollars</option>
+                            <option value="TRL" {% if swappable.currency == 'TRL' %} selected {% endif %}>Turkey Lira</option>
+                            <option value="VEB" {% if swappable.currency == 'VEB' %} selected {% endif %}>Venezuela Bolivar</option>
+                            <option value="ZMK" {% if swappable.currency == 'ZMK' %} selected {% endif %}>Zambia Kwacha</option>
+                            <option value="EUR" {% if swappable.currency == 'EUR' %} selected {% endif %}>Euro</option>
+                            <option value="XCD" {% if swappable.currency == 'XCD' %} selected {% endif %}>Eastern Caribbean Dollars</option>
+                            <option value="XDR" {% if swappable.currency == 'XDR' %} selected {% endif %}>Special Drawing Right (IMF)</option>
+                            <option value="XAG" {% if swappable.currency == 'XAG' %} selected {% endif %}>Silver Ounces</option>
+                            <option value="XAU" {% if swappable.currency == 'XAU' %} selected {% endif %}>Gold Ounces</option>
+                            <option value="XPD" {% if swappable.currency == 'XPD' %} selected {% endif %}>Palladium Ounces</option>
+                            <option value="XPT" {% if swappable.currency == 'XPT' %} selected {% endif %}>Platinum Ounces</option>
+                        </select>
+                        <div class="p-4 mt-2 mb-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="condition" id="condition_label">Condition:</label>
+                        <input class="form-control border-dark" id="condition_range" type="range" name="condition" min="0" max="100" data-form-type="range" value="{{swappable.condition}}" required>
+                        <div class="p-4 mt-2 mb-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                        </div>
+                    </div>
                 </div>
-                <input class="form-control mb-4 border-dark" type="number" name="value" data-form-type="number" value="{{swappable.value}}" required>
-                <select class="form-control mb-4 border-dark currency" name="currency" id="currency" required>
-                    <option value="USD" {% if swappable.currency == 'USD' %} selected {% endif %}>United States Dollars</option>
-                    <option value="EUR" {% if swappable.currency == 'EUR' %} selected {% endif %}>Euro</option>
-                    <option value="GBP" {% if swappable.currency == 'GBP' %} selected {% endif %}>United Kingdom Pounds</option>
-                    <option value="DZD" {% if swappable.currency == 'DZD' %} selected {% endif %}>Algeria Dinars</option>
-                    <option value="ARP" {% if swappable.currency == 'ARP' %} selected {% endif %}>Argentina Pesos</option>
-                    <option value="AUD" {% if swappable.currency == 'AUD' %} selected {% endif %}>Australia Dollars</option>
-                    <option value="ATS" {% if swappable.currency == 'ATS' %} selected {% endif %}>Austria Schillings</option>
-                    <option value="BSD" {% if swappable.currency == 'BSD' %} selected {% endif %}>Bahamas Dollars</option>
-                    <option value="BBD" {% if swappable.currency == 'BBD' %} selected {% endif %}>Barbados Dollars</option>
-                    <option value="BEF" {% if swappable.currency == 'BEF' %} selected {% endif %}>Belgium Francs</option>
-                    <option value="BMD" {% if swappable.currency == 'BMD' %} selected {% endif %}>Bermuda Dollars</option>
-                    <option value="BRR" {% if swappable.currency == 'BRR' %} selected {% endif %}>Brazil Real</option>
-                    <option value="BGL" {% if swappable.currency == 'BGL' %} selected {% endif %}>Bulgaria Lev</option>
-                    <option value="CAD" {% if swappable.currency == 'CAD' %} selected {% endif %}>Canada Dollars</option>
-                    <option value="CLP" {% if swappable.currency == 'CLP' %} selected {% endif %}>Chile Pesos</option>
-                    <option value="CNY" {% if swappable.currency == 'CNY' %} selected {% endif %}>China Yuan Renmimbi</option>
-                    <option value="CYP" {% if swappable.currency == 'CYP' %} selected {% endif %}>Cyprus Pounds</option>
-                    <option value="CSK" {% if swappable.currency == 'CSK' %} selected {% endif %}>Czech Republic Koruna</option>
-                    <option value="DKK" {% if swappable.currency == 'DKK' %} selected {% endif %}>Denmark Kroner</option>
-                    <option value="NLG" {% if swappable.currency == 'NLG' %} selected {% endif %}>Dutch Guilders</option>
-                    <option value="XCD" {% if swappable.currency == 'XCD' %} selected {% endif %}>Eastern Caribbean Dollars</option>
-                    <option value="EGP" {% if swappable.currency == 'EGP' %} selected {% endif %}>Egypt Pounds</option>
-                    <option value="FJD" {% if swappable.currency == 'FJD' %} selected {% endif %}>Fiji Dollars</option>
-                    <option value="FIM" {% if swappable.currency == 'FIM' %} selected {% endif %}>Finland Markka</option>
-                    <option value="FRF" {% if swappable.currency == 'FRF' %} selected {% endif %}>France Francs</option>
-                    <option value="DEM" {% if swappable.currency == 'DEM' %} selected {% endif %}>Germany Deutsche Marks</option>
-                    <option value="XAU" {% if swappable.currency == 'XAU' %} selected {% endif %}>Gold Ounces</option>
-                    <option value="GRD" {% if swappable.currency == 'GRD' %} selected {% endif %}>Greece Drachmas</option>
-                    <option value="HKD" {% if swappable.currency == 'HKD' %} selected {% endif %}>Hong Kong Dollars</option>
-                    <option value="HUF" {% if swappable.currency == 'HUF' %} selected {% endif %}>Hungary Forint</option>
-                    <option value="ISK" {% if swappable.currency == 'ISK' %} selected {% endif %}>Iceland Krona</option>
-                    <option value="INR" {% if swappable.currency == 'INR' %} selected {% endif %}>India Rupees</option>
-                    <option value="IDR" {% if swappable.currency == 'IDR' %} selected {% endif %}>Indonesia Rupiah</option>
-                    <option value="IEP" {% if swappable.currency == 'IEP' %} selected {% endif %}>Ireland Punt</option>
-                    <option value="ILS" {% if swappable.currency == 'ILS' %} selected {% endif %}>Israel New Shekels</option>
-                    <option value="ITL" {% if swappable.currency == 'ITL' %} selected {% endif %}>Italy Lira</option>
-                    <option value="JMD" {% if swappable.currency == 'JMD' %} selected {% endif %}>Jamaica Dollars</option>
-                    <option value="JPY" {% if swappable.currency == 'JPY' %} selected {% endif %}>Japan Yen</option>
-                    <option value="JOD" {% if swappable.currency == 'JOD' %} selected {% endif %}>Jordan Dinar</option>
-                    <option value="KRW" {% if swappable.currency == 'KRW' %} selected {% endif %}>Korea (South) Won</option>
-                    <option value="LBP" {% if swappable.currency == 'LBP' %} selected {% endif %}>Lebanon Pounds</option>
-                    <option value="LUF" {% if swappable.currency == 'LUF' %} selected {% endif %}>Luxembourg Francs</option>
-                    <option value="MYR" {% if swappable.currency == 'MYR' %} selected {% endif %}>Malaysia Ringgit</option>
-                    <option value="MXP" {% if swappable.currency == 'MXP' %} selected {% endif %}>Mexico Pesos</option>
-                    <option value="NLG" {% if swappable.currency == 'NLG' %} selected {% endif %}>Netherlands Guilders</option>
-                    <option value="NZD" {% if swappable.currency == 'NZD' %} selected {% endif %}>New Zealand Dollars</option>
-                    <option value="NOK" {% if swappable.currency == 'NOK' %} selected {% endif %}>Norway Kroner</option>
-                    <option value="PKR" {% if swappable.currency == 'PKR' %} selected {% endif %}>Pakistan Rupees</option>
-                    <option value="XPD" {% if swappable.currency == 'XPD' %} selected {% endif %}>Palladium Ounces</option>
-                    <option value="PHP" {% if swappable.currency == 'PHP' %} selected {% endif %}>Philippines Pesos</option>
-                    <option value="XPT" {% if swappable.currency == 'XPT' %} selected {% endif %}>Platinum Ounces</option>
-                    <option value="PLZ" {% if swappable.currency == 'PLZ' %} selected {% endif %}>Poland Zloty</option>
-                    <option value="PTE" {% if swappable.currency == 'PTE' %} selected {% endif %}>Portugal Escudo</option>
-                    <option value="ROL" {% if swappable.currency == 'ROL' %} selected {% endif %}>Romania Leu</option>
-                    <option value="RUR" {% if swappable.currency == 'RUR' %} selected {% endif %}>Russia Rubles</option>
-                    <option value="SAR" {% if swappable.currency == 'SAR' %} selected {% endif %}>Saudi Arabia Riyal</option>
-                    <option value="XAG" {% if swappable.currency == 'XAG' %} selected {% endif %}>Silver Ounces</option>
-                    <option value="SGD" {% if swappable.currency == 'SGD' %} selected {% endif %}>Singapore Dollars</option>
-                    <option value="SKK" {% if swappable.currency == 'SKK' %} selected {% endif %}>Slovakia Koruna</option>
-                    <option value="ZAR" {% if swappable.currency == 'ZAR' %} selected {% endif %}>South Africa Rand</option>
-                    <option value="KRW" {% if swappable.currency == 'KRW' %} selected {% endif %}>South Korea Won</option>
-                    <option value="ESP" {% if swappable.currency == 'ESP' %} selected {% endif %}>Spain Pesetas</option>
-                    <option value="XDR" {% if swappable.currency == 'XDR' %} selected {% endif %}>Special Drawing Right (IMF)</option>
-                    <option value="SDD" {% if swappable.currency == 'SDD' %} selected {% endif %}>Sudan Dinar</option>
-                    <option value="SEK" {% if swappable.currency == 'SEK' %} selected {% endif %}>Sweden Krona</option>
-                    <option value="CHF" {% if swappable.currency == 'CHF' %} selected {% endif %}>Switzerland Francs</option>
-                    <option value="TWD" {% if swappable.currency == 'TWD' %} selected {% endif %}>Taiwan Dollars</option>
-                    <option value="THB" {% if swappable.currency == 'THB' %} selected {% endif %}>Thailand Baht</option>
-                    <option value="TTD" {% if swappable.currency == 'TTD' %} selected {% endif %}>Trinidad and Tobago Dollars</option>
-                    <option value="TRL" {% if swappable.currency == 'TRL' %} selected {% endif %}>Turkey Lira</option>
-                    <option value="VEB" {% if swappable.currency == 'VEB' %} selected {% endif %}>Venezuela Bolivar</option>
-                    <option value="ZMK" {% if swappable.currency == 'ZMK' %} selected {% endif %}>Zambia Kwacha</option>
-                    <option value="EUR" {% if swappable.currency == 'EUR' %} selected {% endif %}>Euro</option>
-                    <option value="XCD" {% if swappable.currency == 'XCD' %} selected {% endif %}>Eastern Caribbean Dollars</option>
-                    <option value="XDR" {% if swappable.currency == 'XDR' %} selected {% endif %}>Special Drawing Right (IMF)</option>
-                    <option value="XAG" {% if swappable.currency == 'XAG' %} selected {% endif %}>Silver Ounces</option>
-                    <option value="XAU" {% if swappable.currency == 'XAU' %} selected {% endif %}>Gold Ounces</option>
-                    <option value="XPD" {% if swappable.currency == 'XPD' %} selected {% endif %}>Palladium Ounces</option>
-                    <option value="XPT" {% if swappable.currency == 'XPT' %} selected {% endif %}>Platinum Ounces</option>
-                </select>
-                <label class="form-label" for="condition" id="condition_label">Condition:</label>
-                <input class="form-control mb-4 border-dark" id="condition_range" type="range" name="condition" min="0" max="100" data-form-type="range" value="{{swappable.condition}}" required>
+                {% if swappable_address %}
+                  <div>
+                    <h6>Location:</h6>
+                    <div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 mb-4">
+                          <input class="form-control border-dark" type="text" name="city" placeholder="City" data-form-type="text, new" value="{{swappable_address.city}}" required>
+                          {%if messages%}
+                            {%for message in messages%}
+                              {% if 'swappable_city' in message.extra_tags %}
+                                <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                              {% endif %}
+                            {%endfor%}
+                          {%endif%}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4">
+                          <input class="form-control border-dark" type="text" name="code" placeholder="Postal/Zip Code (optional)" data-form-type="text, new" value="{{swappable_address.code}}">
+                          {%if messages%}
+                            {%for message in messages%}
+                              {% if 'swappable_code' in message.extra_tags %}
+                                <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                              {% endif %}
+                            {%endfor%}
+                          {%endif%}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 mb-4">
+                          <input class="form-control border-dark" type="text" name="state" placeholder="State/Province" data-form-type="text, new" value="{{swappable_address.state}}" required>
+                          {%if messages%}
+                            {%for message in messages%}
+                              {% if 'swappable_state' in message.extra_tags %}
+                                <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                              {% endif %}
+                            {%endfor%}
+                          {%endif%}
+                        </div>
+                        <div class="col-12 col-md-6 mb-4">
+                          <select name="country" id="country" class="form-control border-dark country" style="background-color: #fed9b7;" required>
+                            <option value="Afganistan" {% if swappable_address.country == 'Afghanistan' %} selected {% endif %}>Afghanistan</option>
+                            <option value="Albania" {% if swappable_address.country == 'Albania' %} selected {% endif %}>Albania</option>
+                            <option value="Algeria" {% if swappable_address.country == 'Algeria' %} selected {% endif %}>Algeria</option>
+                            <option value="American Samoa" {% if swappable_address.country == 'American Samoa' %} selected {% endif %}>American Samoa</option>
+                            <option value="Andorra" {% if swappable_address.country == 'Andorra' %} selected {% endif %}>Andorra</option>
+                            <option value="Angola" {% if swappable_address.country == 'Angola' %} selected {% endif %}>Angola</option>
+                            <option value="Anguilla" {% if swappable_address.country == 'Anguilla' %} selected {% endif %}>Anguilla</option>
+                            <option value="Antigua & Barbuda" {% if swappable_address.country == 'Antigua & Barbuda' %} selected {% endif %}>Antigua & Barbuda</option>
+                            <option value="Argentina" {% if swappable_address.country == 'Argentina' %} selected {% endif %}>Argentina</option>
+                            <option value="Armenia" {% if swappable_address.country == 'Armenia' %} selected {% endif %}>Armenia</option>
+                            <option value="Aruba" {% if swappable_address.country == 'Aruba' %} selected {% endif %}>Aruba</option>
+                            <option value="Australia" {% if swappable_address.country == 'Australia' %} selected {% endif %}>Australia</option>
+                            <option value="Austria" {% if swappable_address.country == 'Austria' %} selected {% endif %}>Austria</option>
+                            <option value="Azerbaijan" {% if swappable_address.country == 'Azerbaijan' %} selected {% endif %}>Azerbaijan</option>
+                            <option value="Bahamas" {% if swappable_address.country == 'Bahamas' %} selected {% endif %}>Bahamas</option>
+                            <option value="Bahrain" {% if swappable_address.country == 'Bahrain' %} selected {% endif %}>Bahrain</option>
+                            <option value="Bangladesh" {% if swappable_address.country == 'Bangladesh' %} selected {% endif %}>Bangladesh</option>
+                            <option value="Barbados" {% if swappable_address.country == 'Barbados' %} selected {% endif %}>Barbados</option>
+                            <option value="Belarus" {% if swappable_address.country == 'Belarus' %} selected {% endif %}>Belarus</option>
+                            <option value="Belgium" {% if swappable_address.country == 'Belgium' %} selected {% endif %}>Belgium</option>
+                            <option value="Belize" {% if swappable_address.country == 'Belize' %} selected {% endif %}>Belize</option>
+                            <option value="Benin" {% if swappable_address.country == 'Benin' %} selected {% endif %}>Benin</option>
+                            <option value="Bermuda" {% if swappable_address.country == 'Bermuda' %} selected {% endif %}>Bermuda</option>
+                            <option value="Bhutan" {% if swappable_address.country == 'Bhutan' %} selected {% endif %}>Bhutan</option>
+                            <option value="Bolivia" {% if swappable_address.country == 'Bolivia' %} selected {% endif %}>Bolivia</option>
+                            <option value="Bonaire" {% if swappable_address.country == 'Bonaire' %} selected {% endif %}>Bonaire</option>
+                            <option value="Bosnia & Herzegovina" {% if swappable_address.country == 'Bosnia & Herzegovina' %} selected {% endif %}>Bosnia & Herzegovina</option>
+                            <option value="Botswana" {% if swappable_address.country == 'Botswana' %} selected {% endif %}>Botswana</option>
+                            <option value="Brazil" {% if swappable_address.country == 'Brazil' %} selected {% endif %}>Brazil</option>
+                            <option value="British Indian Ocean Ter" {% if swappable_address.country == 'British Indian Ocean Ter' %} selected {% endif %}>British Indian Ocean Ter</option>
+                            <option value="Brunei" {% if swappable_address.country == 'Brunei' %} selected {% endif %}>Brunei</option>
+                            <option value="Bulgaria" {% if swappable_address.country == 'Bulgaria' %} selected {% endif %}>Bulgaria</option>
+                            <option value="Burkina Faso" {% if swappable_address.country == 'Burkina Faso' %} selected {% endif %}>Burkina Faso</option>
+                            <option value="Burundi" {% if swappable_address.country == 'Burundi' %} selected {% endif %}>Burundi</option>
+                            <option value="Cambodia" {% if swappable_address.country == 'Cambodia' %} selected {% endif %}>Cambodia</option>
+                            <option value="Cameroon" {% if swappable_address.country == 'Cameroon' %} selected {% endif %}>Cameroon</option>
+                            <option value="Canada" {% if swappable_address.country == 'Canada' %} selected {% endif %}>Canada</option>
+                            <option value="Canary Islands" {% if swappable_address.country == 'Canary Islands' %} selected {% endif %}>Canary Islands</option>
+                            <option value="Cape Verde" {% if swappable_address.country == 'Cape Verde' %} selected {% endif %}>Cape Verde</option>
+                            <option value="Cayman Islands" {% if swappable_address.country == 'Cayman Islands' %} selected {% endif %}>Cayman Islands</option>
+                            <option value="Central African Republic" {% if swappable_address.country == 'Central African Republic' %} selected {% endif %}>Central African Republic</option>
+                            <option value="Chad" {% if swappable_address.country == 'Chad' %} selected {% endif %}>Chad</option>
+                            <option value="Channel Islands" {% if swappable_address.country == 'Channel Islands' %} selected {% endif %}>Channel Islands</option>
+                            <option value="Chile" {% if swappable_address.country == 'Chile' %} selected {% endif %}>Chile</option>
+                            <option value="China" {% if swappable_address.country == 'China' %} selected {% endif %}>China</option>
+                            <option value="Christmas Island" {% if swappable_address.country == 'Christmas Island' %} selected {% endif %}>Christmas Island</option>
+                            <option value="Cocos Island" {% if swappable_address.country == 'Cocos Island' %} selected {% endif %}>Cocos Island</option>
+                            <option value="Colombia" {% if swappable_address.country == 'Colombia' %} selected {% endif %}>Colombia</option>
+                            <option value="Comoros" {% if swappable_address.country == 'Comoros' %} selected {% endif %}>Comoros</option>
+                            <option value="Congo" {% if swappable_address.country == 'Congo' %} selected {% endif %}>Congo</option>
+                            <option value="Cook Islands" {% if swappable_address.country == 'Cook Islands' %} selected {% endif %}>Cook Islands</option>
+                            <option value="Costa Rica" {% if swappable_address.country == 'Costa Rica' %} selected {% endif %}>Costa Rica</option>
+                            <option value="Cote DIvoire" {% if swappable_address.country == 'Cote DIvoire' %} selected {% endif %}>Cote DIvoire</option>
+                            <option value="Croatia" {% if swappable_address.country == 'Croatia' %} selected {% endif %}>Croatia</option>
+                            <option value="Cuba" {% if swappable_address.country == 'Cuba' %} selected {% endif %}>Cuba</option>
+                            <option value="Curaco" {% if swappable_address.country == 'Curaco' %} selected {% endif %}>Curacao</option>
+                            <option value="Cyprus" {% if swappable_address.country == 'Cyprus' %} selected {% endif %}>Cyprus</option>
+                            <option value="Czech Republic" {% if swappable_address.country == 'Czech Republic' %} selected {% endif %}>Czech Republic</option>
+                            <option value="Denmark" {% if swappable_address.country == 'Denmark' %} selected {% endif %}>Denmark</option>
+                            <option value="Djibouti" {% if swappable_address.country == 'Djibouti' %} selected {% endif %}>Djibouti</option>
+                            <option value="Dominica" {% if swappable_address.country == 'Dominica' %} selected {% endif %}>Dominica</option>
+                            <option value="Dominican Republic" {% if swappable_address.country == 'Dominican Republic' %} selected {% endif %}>Dominican Republic</option>
+                            <option value="East Timor" {% if swappable_address.country == 'East Timor' %} selected {% endif %}>East Timor</option>
+                            <option value="Ecuador" {% if swappable_address.country == 'Ecuador' %} selected {% endif %}>Ecuador</option>
+                            <option value="Egypt" {% if swappable_address.country == 'Egypt' %} selected {% endif %}>Egypt</option>
+                            <option value="El Salvador" {% if swappable_address.country == 'El Salvador' %} selected {% endif %}>El Salvador</option>
+                            <option value="Equatorial Guinea" {% if swappable_address.country == 'Equatorial Guinea' %} selected {% endif %}>Equatorial Guinea</option>
+                            <option value="Eritrea" {% if swappable_address.country == 'Eritrea' %} selected {% endif %}>Eritrea</option>
+                            <option value="Estonia" {% if swappable_address.country == 'Estonia' %} selected {% endif %}>Estonia</option>
+                            <option value="Ethiopia" {% if swappable_address.country == 'Ethiopia' %} selected {% endif %}>Ethiopia</option>
+                            <option value="Falkland Islands" {% if swappable_address.country == 'Falkland Islands' %} selected {% endif %}>Falkland Islands</option>
+                            <option value="Faroe Islands" {% if swappable_address.country == 'Faroe Islands' %} selected {% endif %}>Faroe Islands</option>
+                            <option value="Fiji" {% if swappable_address.country == 'Fiji' %} selected {% endif %}>Fiji</option>
+                            <option value="Finland" {% if swappable_address.country == 'Finland' %} selected {% endif %}>Finland</option>
+                            <option value="France" {% if swappable_address.country == 'France' %} selected {% endif %}>France</option>
+                            <option value="French Guiana" {% if swappable_address.country == 'French Guiana' %} selected {% endif %}>French Guiana</option>
+                            <option value="French Polynesia" {% if swappable_address.country == 'French Polynesia' %} selected {% endif %}>French Polynesia</option>
+                            <option value="French Southern Ter" {% if swappable_address.country == 'French Southern Ter' %} selected {% endif %}>French Southern Ter</option>
+                            <option value="Gabon" {% if swappable_address.country == 'Gabon' %} selected {% endif %}>Gabon</option>
+                            <option value="Gambia" {% if swappable_address.country == 'Gambia' %} selected {% endif %}>Gambia</option>
+                            <option value="Georgia" {% if swappable_address.country == 'Georgia' %} selected {% endif %}>Georgia</option>
+                            <option value="Germany" {% if swappable_address.country == 'Germany' %} selected {% endif %}>Germany</option>
+                            <option value="Ghana" {% if swappable_address.country == 'Ghana' %} selected {% endif %}>Ghana</option>
+                            <option value="Gibraltar" {% if swappable_address.country == 'Gibraltar' %} selected {% endif %}>Gibraltar</option>
+                            <option value="Great Britain" {% if swappable_address.country == 'Great Britain' %} selected {% endif %}>Great Britain</option>
+                            <option value="Greece" {% if swappable_address.country == 'Greece' %} selected {% endif %}>Greece</option>
+                            <option value="Greenland" {% if swappable_address.country == 'Greenland' %} selected {% endif %}>Greenland</option>
+                            <option value="Grenada" {% if swappable_address.country == 'Grenada' %} selected {% endif %}>Grenada</option>
+                            <option value="Guadeloupe" {% if swappable_address.country == 'Guadeloupe' %} selected {% endif %}>Guadeloupe</option>
+                            <option value="Guam" {% if swappable_address.country == 'Guam' %} selected {% endif %}>Guam</option>
+                            <option value="Guatemala" {% if swappable_address.country == 'Guatemala' %} selected {% endif %}>Guatemala</option>
+                            <option value="Guinea" {% if swappable_address.country == 'Guinea' %} selected {% endif %}>Guinea</option>
+                            <option value="Guyana" {% if swappable_address.country == 'Guyana' %} selected {% endif %}>Guyana</option>
+                            <option value="Haiti" {% if swappable_address.country == 'Haiti' %} selected {% endif %}>Haiti</option>
+                            <option value="Hawaii" {% if swappable_address.country == 'Hawaii' %} selected {% endif %}>Hawaii</option>
+                            <option value="Honduras" {% if swappable_address.country == 'Honduras' %} selected {% endif %}>Honduras</option>
+                            <option value="Hong Kong" {% if swappable_address.country == 'Hong Kong' %} selected {% endif %}>Hong Kong</option>
+                            <option value="Hungary" {% if swappable_address.country == 'Hungary' %} selected {% endif %}>Hungary</option>
+                            <option value="Iceland" {% if swappable_address.country == 'Iceland' %} selected {% endif %}>Iceland</option>
+                            <option value="Indonesia" {% if swappable_address.country == 'Indonesia' %} selected {% endif %}>Indonesia</option>
+                            <option value="India" {% if swappable_address.country == 'India' %} selected {% endif %}>India</option>
+                            <option value="Iran" {% if swappable_address.country == 'Iran' %} selected {% endif %}>Iran</option>
+                            <option value="Iraq" {% if swappable_address.country == 'Iraq' %} selected {% endif %}>Iraq</option>
+                            <option value="Ireland" {% if swappable_address.country == 'Ireland' %} selected {% endif %}>Ireland</option>
+                            <option value="Isle of Man" {% if swappable_address.country == 'Isle of Man' %} selected {% endif %}>Isle of Man</option>
+                            <option value="Israel" {% if swappable_address.country == 'Israel' %} selected {% endif %}>Israel</option>
+                            <option value="Italy" {% if swappable_address.country == 'Italy' %} selected {% endif %}>Italy</option>
+                            <option value="Jamaica" {% if swappable_address.country == 'Jamaica' %} selected {% endif %}>Jamaica</option>
+                            <option value="Japan" {% if swappable_address.country == 'Japan' %} selected {% endif %}>Japan</option>
+                            <option value="Jordan" {% if swappable_address.country == 'Jordan' %} selected {% endif %}>Jordan</option>
+                            <option value="Kazakhstan" {% if swappable_address.country == 'Kazakhstan' %} selected {% endif %}>Kazakhstan</option>
+                            <option value="Kenya" {% if swappable_address.country == 'Kenya' %} selected {% endif %}>Kenya</option>
+                            <option value="Kiribati" {% if swappable_address.country == 'Kiribati' %} selected {% endif %}>Kiribati</option>
+                            <option value="Korea North" {% if swappable_address.country == 'Korea North' %} selected {% endif %}>Korea North</option>
+                            <option value="Korea Sout" {% if swappable_address.country == 'Korea Sout' %} selected {% endif %}>Korea South</option>
+                            <option value="Kuwait" {% if swappable_address.country == 'Kuwait' %} selected {% endif %}>Kuwait</option>
+                            <option value="Kyrgyzstan" {% if swappable_address.country == 'Kyrgyzstan' %} selected {% endif %}>Kyrgyzstan</option>
+                            <option value="Laos" {% if swappable_address.country == 'Laos' %} selected {% endif %}>Laos</option>
+                            <option value="Latvia" {% if swappable_address.country == 'Latvia' %} selected {% endif %}>Latvia</option>
+                            <option value="Lebanon" {% if swappable_address.country == 'Lebanon' %} selected {% endif %}>Lebanon</option>
+                            <option value="Lesotho" {% if swappable_address.country == 'Lesotho' %} selected {% endif %}>Lesotho</option>
+                            <option value="Liberia" {% if swappable_address.country == 'Liberia' %} selected {% endif %}>Liberia</option>
+                            <option value="Libya" {% if swappable_address.country == 'Libya' %} selected {% endif %}>Libya</option>
+                            <option value="Liechtenstein" {% if swappable_address.country == 'Liechtenstein' %} selected {% endif %}>Liechtenstein</option>
+                            <option value="Lithuania" {% if swappable_address.country == 'Lithuania' %} selected {% endif %}>Lithuania</option>
+                            <option value="Luxembourg" {% if swappable_address.country == 'Luxembourg' %} selected {% endif %}>Luxembourg</option>
+                            <option value="Macau" {% if swappable_address.country == 'Macau' %} selected {% endif %}>Macau</option>
+                            <option value="Macedonia" {% if swappable_address.country == 'Macedonia' %} selected {% endif %}>Macedonia</option>
+                            <option value="Madagascar" {% if swappable_address.country == 'Madagascar' %} selected {% endif %}>Madagascar</option>
+                            <option value="Malaysia" {% if swappable_address.country == 'Malaysia' %} selected {% endif %}>Malaysia</option>
+                            <option value="Malawi" {% if swappable_address.country == 'Malawi' %} selected {% endif %}>Malawi</option>
+                            <option value="Maldives" {% if swappable_address.country == 'Maldives' %} selected {% endif %}>Maldives</option>
+                            <option value="Mali" {% if swappable_address.country == 'Mali' %} selected {% endif %}>Mali</option>
+                            <option value="Malta" {% if swappable_address.country == 'Malta' %} selected {% endif %}>Malta</option>
+                            <option value="Marshall Islands" {% if swappable_address.country == 'Marshall Islands' %} selected {% endif %}>Marshall Islands</option>
+                            <option value="Martinique" {% if swappable_address.country == 'Martinique' %} selected {% endif %}>Martinique</option>
+                            <option value="Mauritania" {% if swappable_address.country == 'Mauritania' %} selected {% endif %}>Mauritania</option>
+                            <option value="Mauritius" {% if swappable_address.country == 'Mauritius' %} selected {% endif %}>Mauritius</option>
+                            <option value="Mayotte" {% if swappable_address.country == 'Mayotte' %} selected {% endif %}>Mayotte</option>
+                            <option value="Mexico" {% if swappable_address.country == 'Mexico' %} selected {% endif %}>Mexico</option>
+                            <option value="Midway Islands" {% if swappable_address.country == 'Midway Islands' %} selected {% endif %}>Midway Islands</option>
+                            <option value="Moldova" {% if swappable_address.country == 'Moldova' %} selected {% endif %}>Moldova</option>
+                            <option value="Monaco" {% if swappable_address.country == 'Monaco' %} selected {% endif %}>Monaco</option>
+                            <option value="Mongolia" {% if swappable_address.country == 'Mongolia' %} selected {% endif %}>Mongolia</option>
+                            <option value="Montserrat" {% if swappable_address.country == 'Montserrat' %} selected {% endif %}>Montserrat</option>
+                            <option value="Morocco" {% if swappable_address.country == 'Morocco' %} selected {% endif %}>Morocco</option>
+                            <option value="Mozambique" {% if swappable_address.country == 'Mozambique' %} selected {% endif %}>Mozambique</option>
+                            <option value="Myanmar" {% if swappable_address.country == 'Myanmar' %} selected {% endif %}>Myanmar</option>
+                            <option value="Nambia" {% if swappable_address.country == 'Nambia' %} selected {% endif %}>Nambia</option>
+                            <option value="Nauru" {% if swappable_address.country == 'Nauru' %} selected {% endif %}>Nauru</option>
+                            <option value="Nepal" {% if swappable_address.country == 'Nepal' %} selected {% endif %}>Nepal</option>
+                            <option value="Netherland Antilles" {% if swappable_address.country == 'Netherland Antilles' %} selected {% endif %}>Netherland Antilles</option>
+                            <option value="Netherlands" {% if swappable_address.country == 'Netherlands' %} selected {% endif %}>Netherlands (Holland, Europe)</option>
+                            <option value="Nevis" {% if swappable_address.country == 'Nevis' %} selected {% endif %}>Nevis</option>
+                            <option value="New Caledonia" {% if swappable_address.country == 'New Caledonia' %} selected {% endif %}>New Caledonia</option>
+                            <option value="New Zealand" {% if swappable_address.country == 'New Zealand' %} selected {% endif %}>New Zealand</option>
+                            <option value="Nicaragua" {% if swappable_address.country == 'Nicaragua' %} selected {% endif %}>Nicaragua</option>
+                            <option value="Niger" {% if swappable_address.country == 'Niger' %} selected {% endif %}>Niger</option>
+                            <option value="Nigeria" {% if swappable_address.country == 'Nigeria' %} selected {% endif %}>Nigeria</option>
+                            <option value="Niue" {% if swappable_address.country == 'Niue' %} selected {% endif %}>Niue</option>
+                            <option value="Norfolk Island" {% if swappable_address.country == 'Norfolk Island' %} selected {% endif %}>Norfolk Island</option>
+                            <option value="Norway" {% if swappable_address.country == 'Norway' %} selected {% endif %}>Norway</option>
+                            <option value="Oman" {% if swappable_address.country == 'Oman' %} selected {% endif %}>Oman</option>
+                            <option value="Pakistan" {% if swappable_address.country == 'Pakistan' %} selected {% endif %}>Pakistan</option>
+                            <option value="Palau Island" {% if swappable_address.country == 'Palau Island' %} selected {% endif %}>Palau Island</option>
+                            <option value="Palestine" {% if swappable_address.country == 'Palestine' %} selected {% endif %}>Palestine</option>
+                            <option value="Panama" {% if swappable_address.country == 'Panama' %} selected {% endif %}>Panama</option>
+                            <option value="Papua New Guinea" {% if swappable_address.country == 'Papua New Guinea' %} selected {% endif %}>Papua New Guinea</option>
+                            <option value="Paraguay" {% if swappable_address.country == 'Paraguay' %} selected {% endif %}>Paraguay</option>
+                            <option value="Peru" {% if swappable_address.country == 'Peru' %} selected {% endif %}>Peru</option>
+                            <option value="Phillipines" {% if swappable_address.country == 'Phillipines' %} selected {% endif %}>Philippines</option>
+                            <option value="Pitcairn Island" {% if swappable_address.country == 'Pitcairn Island' %} selected {% endif %}>Pitcairn Island</option>
+                            <option value="Poland" {% if swappable_address.country == 'Poland' %} selected {% endif %}>Poland</option>
+                            <option value="Portugal" {% if swappable_address.country == 'Portugal' %} selected {% endif %}>Portugal</option>
+                            <option value="Puerto Rico" {% if swappable_address.country == 'Puerto Rico' %} selected {% endif %}>Puerto Rico</option>
+                            <option value="Qatar" {% if swappable_address.country == 'Qatar' %} selected {% endif %}>Qatar</option>
+                            <option value="Republic of Montenegro" {% if swappable_address.country == 'Republic of Montenegro' %} selected {% endif %}>Republic of Montenegro</option>
+                            <option value="Republic of Serbia" {% if swappable_address.country == 'Republic of Serbia' %} selected {% endif %}>Republic of Serbia</option>
+                            <option value="Reunion" {% if swappable_address.country == 'Reunion' %} selected {% endif %}>Reunion</option>
+                            <option value="Romania" {% if swappable_address.country == 'Romania' %} selected {% endif %}>Romania</option>
+                            <option value="Russia" {% if swappable_address.country == 'Russia' %} selected {% endif %}>Russia</option>
+                            <option value="Rwanda" {% if swappable_address.country == 'Rwanda' %} selected {% endif %}>Rwanda</option>
+                            <option value="St Barthelemy" {% if swappable_address.country == 'St Barthelemy' %} selected {% endif %} {% if swappable_address.country == 'Rwanda' %} selected {% endif %}>St Barthelemy</option>
+                            <option value="St Eustatius" {% if swappable_address.country == 'St Eustatius' %} selected {% endif %}>St Eustatius</option>
+                            <option value="St Helena" {% if swappable_address.country == 'St Helena' %} selected {% endif %}>St Helena</option>
+                            <option value="St Kitts-Nevis" {% if swappable_address.country == 'St Kitts-Nevis' %} selected {% endif %}>St Kitts-Nevis</option>
+                            <option value="St Lucia" {% if swappable_address.country == 'St Lucia' %} selected {% endif %}>St Lucia</option>
+                            <option value="St Maarten" {% if swappable_address.country == 'St Maarten' %} selected {% endif %}>St Maarten</option>
+                            <option value="St Pierre & Miquelon" {% if swappable_address.country == 'St Pierre & Miquelon' %} selected {% endif %}>St Pierre & Miquelon</option>
+                            <option value="St Vincent & Grenadines" {% if swappable_address.country == 'St Vincent & Grenadines' %} selected {% endif %}>St Vincent & Grenadines</option>
+                            <option value="Saipan" {% if swappable_address.country == 'Saipan' %} selected {% endif %}>Saipan</option>
+                            <option value="Samoa" {% if swappable_address.country == 'Samoa' %} selected {% endif %}>Samoa</option>
+                            <option value="Samoa American" {% if swappable_address.country == 'Samoa American' %} selected {% endif %}>Samoa American</option>
+                            <option value="San Marino" {% if swappable_address.country == 'San Marino' %} selected {% endif %}>San Marino</option>
+                            <option value="Sao Tome & Principe" {% if swappable_address.country == 'Sao Tome & Principe' %} selected {% endif %}>Sao Tome & Principe</option>
+                            <option value="Saudi Arabia" {% if swappable_address.country == 'Saudi Arabia' %} selected {% endif %}>Saudi Arabia</option>
+                            <option value="Senegal" {% if swappable_address.country == 'Senegal' %} selected {% endif %}>Senegal</option>
+                            <option value="Seychelles" {% if swappable_address.country == 'Seychelles' %} selected {% endif %}>Seychelles</option>
+                            <option value="Sierra Leone" {% if swappable_address.country == 'Sierra Leone' %} selected {% endif %}>Sierra Leone</option>
+                            <option value="Singapore" {% if swappable_address.country == 'Singapore' %} selected {% endif %}>Singapore</option>
+                            <option value="Slovakia" {% if swappable_address.country == 'Slovakia' %} selected {% endif %}>Slovakia</option>
+                            <option value="Slovenia" {% if swappable_address.country == 'Slovenia' %} selected {% endif %}>Slovenia</option>
+                            <option value="Solomon Islands" {% if swappable_address.country == 'Solomon Islands' %} selected {% endif %}>Solomon Islands</option>
+                            <option value="Somalia" {% if swappable_address.country == 'Somalia' %} selected {% endif %}>Somalia</option>
+                            <option value="South Africa" {% if swappable_address.country == 'South Africa' %} selected {% endif %}>South Africa</option>
+                            <option value="Spain" {% if swappable_address.country == 'Spain' %} selected {% endif %}>Spain</option>
+                            <option value="Sri Lanka" {% if swappable_address.country == 'Sri Lanka' %} selected {% endif %}>Sri Lanka</option>
+                            <option value="Sudan" {% if swappable_address.country == 'Sudan' %} selected {% endif %}>Sudan</option>
+                            <option value="Suriname" {% if swappable_address.country == 'Suriname' %} selected {% endif %}>Suriname</option>
+                            <option value="Swaziland" {% if swappable_address.country == 'Swaziland' %} selected {% endif %}>Swaziland</option>
+                            <option value="Sweden" {% if swappable_address.country == 'Sweden' %} selected {% endif %}>Sweden</option>
+                            <option value="Switzerland" {% if swappable_address.country == 'Switzerland' %} selected {% endif %}>Switzerland</option>
+                            <option value="Syria" {% if swappable_address.country == 'Syria' %} selected {% endif %}>Syria</option>
+                            <option value="Tahiti" {% if swappable_address.country == 'Tahiti' %} selected {% endif %}>Tahiti</option>
+                            <option value="Taiwan" {% if swappable_address.country == 'Taiwan' %} selected {% endif %}>Taiwan</option>
+                            <option value="Tajikistan" {% if swappable_address.country == 'Tajikistan' %} selected {% endif %}>Tajikistan</option>
+                            <option value="Tanzania" {% if swappable_address.country == 'Tanzania' %} selected {% endif %}>Tanzania</option>
+                            <option value="Thailand" {% if swappable_address.country == 'Thailand' %} selected {% endif %}>Thailand</option>
+                            <option value="Togo" {% if swappable_address.country == 'Togo' %} selected {% endif %}>Togo</option>
+                            <option value="Tokelau" {% if swappable_address.country == 'Tokelau' %} selected {% endif %}>Tokelau</option>
+                            <option value="Tonga" {% if swappable_address.country == 'Tonga' %} selected {% endif %}>Tonga</option>
+                            <option value="Trinidad & Tobago" {% if swappable_address.country == 'Trinidad & Tobago' %} selected {% endif %}>Trinidad & Tobago</option>
+                            <option value="Tunisia" {% if swappable_address.country == 'Tunisia' %} selected {% endif %}>Tunisia</option>
+                            <option value="Turkey" {% if swappable_address.country == 'Turkey' %} selected {% endif %}>Turkey</option>
+                            <option value="Turkmenistan" {% if swappable_address.country == 'Turkmenistan' %} selected {% endif %}>Turkmenistan</option>
+                            <option value="Turks & Caicos Is" {% if swappable_address.country == 'Turks & Caicos Is' %} selected {% endif %}>Turks & Caicos Is</option>
+                            <option value="Tuvalu" {% if swappable_address.country == 'Tuvalu' %} selected {% endif %}>Tuvalu</option>
+                            <option value="Uganda" {% if swappable_address.country == 'Uganda' %} selected {% endif %}>Uganda</option>
+                            <option value="United Kingdom" {% if swappable_address.country == 'United Kingdom' %} selected {% endif %}>United Kingdom</option>
+                            <option value="Ukraine" {% if swappable_address.country == 'Ukraine' %} selected {% endif %}>Ukraine</option>
+                            <option value="United Arab Erimates" {% if swappable_address.country == 'United Arab Erimates' %} selected {% endif %}>United Arab Emirates</option>
+                            <option value="United States of America" {% if swappable_address.country == 'United States of America' %} selected {% endif %}>United States of America</option>
+                            <option value="Uraguay" {% if swappable_address.country == 'Uraguay' %} selected {% endif %}>Uruguay</option>
+                            <option value="Uzbekistan" {% if swappable_address.country == 'Uzbekistan' %} selected {% endif %}>Uzbekistan</option>
+                            <option value="Vanuatu" {% if swappable_address.country == 'Vanuatu' %} selected {% endif %}>Vanuatu</option>
+                            <option value="Vatican City State" {% if swappable_address.country == 'Vatican City State' %} selected {% endif %}>Vatican City State</option>
+                            <option value="Venezuela" {% if swappable_address.country == 'Venezuela' %} selected {% endif %}>Venezuela</option>
+                            <option value="Vietnam" {% if swappable_address.country == 'Vietnam' %} selected {% endif %}>Vietnam</option>
+                            <option value="Virgin Islands (Brit)" {% if swappable_address.country == 'Virgin Islands (Brit)' %} selected {% endif %}>Virgin Islands (Brit)</option>
+                            <option value="Virgin Islands (USA)" {% if swappable_address.country == 'Virgin Islands (USA)' %} selected {% endif %}>Virgin Islands (USA)</option>
+                            <option value="Wake Island" {% if swappable_address.country == 'Wake Island' %} selected {% endif %}>Wake Island</option>
+                            <option value="Wallis & Futana Is" {% if swappable_address.country == 'Wallis & Futana Is' %} selected {% endif %}>Wallis & Futana Is</option>
+                            <option value="Yemen" {% if swappable_address.country == 'Yemen' %} selected {% endif %}>Yemen</option>
+                            <option value="Zaire" {% if swappable_address.country == 'Zaire' %} selected {% endif %}>Zaire</option>
+                            <option value="Zambia" {% if swappable_address.country == 'Zambia' %} selected {% endif %}>Zambia</option>
+                            <option value="Zimbabwe" {% if swappable_address.country == 'Zimbabwe' %} selected {% endif %}>Zimbabwe</option>
+                        </select>
+                        {%if messages%}
+                          {%for message in messages%}
+                            {% if 'swappable_country' in message.extra_tags %}
+                              <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                            {% endif %}
+                          {%endfor%}
+                        {%endif%}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12 col-md-6 mb-4">
+                          <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                            <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
                 <div class="row mx-auto mt-12 mt-md-10 align-items-center justify-content-between">
                     <button class="btn btn-outline-primary fw-bold mx-auto p-1" id="cancel" data-form-type="action,cancel" style="height: 50px; color: #0081A7;">Cancel</button>
                     <button class="btn text-black border-dark p-1 mt-4" id="save" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;">Save</button>
@@ -150,10 +576,10 @@
             </form>
             </div>
             <!-- TODO Include Tips -->
-            <div class="row col-12 col-md-6 mb-12 mb-lg-0 px-10 py-lg-32 intro pt-md-7 mx-0 px-lg-16">
-            <div class="p-10" style="background-color: #00AFB9;">
-                Tips
-            </div>
+            <div class="row d-none d-md-flex col-12 col-md-6 mb-12 mb-lg-0 px-10 py-lg-32 intro pt-md-7 mx-0 px-lg-16">
+                <div class="p-10" style="background-color: #00AFB9;">
+                    Tips
+                </div>
             </div>
         </div>
         </div>

@@ -47,11 +47,13 @@
                             <div class="row">
                                 {% if swappable_images %}
                                     <div class="md-col-12 col-lg-2 mb-2 mb-lg-0">
-                                        <div class="d-flex flex-lg-column h-100">
+                                        <div class="row d-flex me-lg-4 flex-lg-column h-100">
                                             {% for swappable_image in swappable_images %}
-                                                <a class="d-block me-lg-0 mb-2" href="#" style="width: 80px; height: 80px;">
-                                                    <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle swappable_image" id="{{swappable_image.name}}" style="object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
-                                                </a>
+                                                <div class="col-4 col-xs-6 col-sm-3 col-lg-12">
+                                                    <a class="d-block me-lg-0 mb-2" href="#" style="width: 80px; height: 80px;">
+                                                        <img class="w-100 h-100 img-fluid p-1 p-lg-0 rounded-circle swappable_image" id="{{swappable_image.name}}" style="object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                                    </a>
+                                                </div>
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -83,12 +85,11 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div>
-                                <div class="mb-10 pb-10 border-bottom border-dark">
-                                    <div class="mb-8 justify-content-between d-flex">
+                                <div class="mb-10 pb-6 border-bottom border-dark">
+                                    <div class="mb-0 justify-content-between d-flex">
                                         <a class="link-dark text-decoration-none d-inline-flex align-items-center" href="{% url 'baba:show_user' id=swappable.user.id %}">
                                             <div class="me-10 mw-xl">
-                                                <p class="mb-0 fw-bold">Owner</p>
-                                                <p class="mb-4 text-muted">{{swappable.user.first_name}} {{swappable.user.last_name}}</p>
+                                                <p class="mb-0 fw-bold">{{swappable.user.first_name}} {{swappable.user.last_name}}</p>
                                             </div>
                                             <svg class="" width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M16.0006 16.3154C19.1303 16.3154 21.6673 13.799 21.6673 10.6948C21.6673 7.59064 19.1303 5.07422 16.0006 5.07422C12.871 5.07422 10.334 7.59064 10.334 10.6948C10.334 13.799 12.871 16.3154 16.0006 16.3154Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -97,12 +98,33 @@
                                         </a>
                                         {% if edit == True %}
                                             <a id="edit_profile_link" href="{% url 'baba:edit_swappable' id=swappable.id %}" style="color: #0081A7;">Edit</a>
+                                        {% else %}
+                                            <a id="report_profile_link" href="#" style="color: #0081A7;">Report</a>
                                         {% endif %}
+                                    </div>
+                                    <div class="mb-8 mt-0">
+                                        <small class="text-muted mb-2">Added {{swappable.created_at|naturaltime}}</small>
                                     </div>
                                     <p class="d-inline-block h5 mb-8">
                                         <span>Value: ${{swappable.value|intcomma}}</span>
                                     </p>
-                                    <p class="mw-md">{{swappable.short_description}}</p>
+                                    <p class="mb-8">
+                                        <span>Physical swap location: </span>
+                                        {% if location.city|length > 0 %}
+                                            <span>{{location.city}}</span>
+                                        {% endif %}
+                                        {% if location.state|length > 0 %}
+                                            <span>, {{location.state}}</span>
+                                        {% endif %}
+                                        {% if location.country|length > 0 %}
+                                            <span>, {{location.country}}</span>
+                                        {% endif %}
+                                        {% if location.code|length > 0 %}
+                                            <span>, {{location.code}}</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="mb-4">{{swappable.short_description}}</p>
+                                    <a class="link-dark" href="{% url 'baba:category' id=swappable.category.id %}"><i class="fw-bold">{{swappable.category.name}}</i></a>
                                 </div>
                                 <div class="mb-14 align-items-center">
                                     {% if edit == False %}
@@ -116,7 +138,7 @@
                                                 </a>
                                             </div>
                                             <div class="col-12 col-lg-6 mb-8">
-                                                <a class="btn border border-dark d-flex w-100 d-flex-wrap align-items-center justify-content-center rounded-md" href="#" style='background-color: #fed9b7;'>
+                                                <a class="btn border border-dark d-flex w-100 d-flex-wrap align-items-center justify-content-center rounded-md" href="{% url 'baba:compare' id=swappable.id %}" style='background-color: #fed9b7;'>
                                                     <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                                     </svg>
@@ -133,13 +155,40 @@
                                             </a>
                                         </div>
                                     {% else %}
-                                        <div class="row align-items-center mx-auto">
-                                            <a class="btn border border-dark d-flex-wrap d-flex align-items-center justify-content-center rounded-md" href="#" style='background-color: #fed9b7;'>
+                                        <div class="row align-items-center mx-auto mb-8">
+                                            <a class="btn border border-dark d-flex-wrap d-flex align-items-center justify-content-center rounded-md" href="{% url 'baba:compare' id=swappable.id %}" style='background-color: #fed9b7;'>
                                                 <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                                 </svg>
                                                 <span class="">Compare</span>
                                             </a>
+                                        </div>
+                                        <div class="row align-items-center mx-auto" id="delete_swappable">
+                                            <a class="btn btn-danger border border-dark d-flex-wrap d-flex align-items-center justify-content-center rounded-md" id="delete" href="{% url 'baba:delete_swappable' id=swappable.id %}">
+                                                <svg class="mt-n1 me-2" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M13.4993 26.2061L4.70067 16.9253C3.9281 16.1443 3.41815 15.1374 3.24307 14.0471C3.06798 12.9568 3.23664 11.8385 3.72514 10.8505V10.8505C4.09415 10.1046 4.63318 9.45803 5.29779 8.96406C5.96241 8.47008 6.73359 8.14284 7.54782 8.00931C8.36204 7.87578 9.19599 7.93978 9.98095 8.19603C10.7659 8.45228 11.4794 8.89345 12.0627 9.48319L13.4993 10.9358L14.9359 9.48319C15.5192 8.89345 16.2327 8.45228 17.0177 8.19603C17.8026 7.93978 18.6366 7.87578 19.4508 8.00931C20.265 8.14284 21.0362 8.47008 21.7008 8.96406C22.3654 9.45803 22.9045 10.1046 23.2735 10.8505V10.8505C23.762 11.8385 23.9306 12.9568 23.7556 14.0471C23.5805 15.1374 23.0705 16.1443 22.298 16.9253L13.4993 26.2061Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </svg>
+                                                <span class="text-black">Delete</span>
+                                            </a>
+                                            <div class="modal fade" id="delete_swappable_modal" tabindex="-1" aria-labelledby="delete_swappable_modal_label" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="delete_swappable_modal_label">Delete {{swappable.name}}?</h5>
+                                                            <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete {{swappable.name}}?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" id="no" data-dismiss="modal">No</button>
+                                                            <a class="btn btn-danger" href="#" id="yes">Yes</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     {% endif %}
                                 </div>

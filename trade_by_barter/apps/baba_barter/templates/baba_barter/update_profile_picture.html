@@ -1,0 +1,33 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/update_profile_picture.css' %}">
+<script type="text/javascript" src="{% static 'baba_barter/js/update_profile_picture.js' %}"></script>
+
+{% if user %}
+    <div class="position-relative mx-auto ms-md-4 ms-lg-20" id="edit_profile_picture">
+        <h5 class="mb-4 font-bold">Edit profile picture:</h5>
+        <form action="{% url 'baba:process_edit_profile_picture' %}" method="post" enctype="multipart/form-data" data-form-type="register" id="edit_profile_picture_form">
+            {% csrf_token %}
+            <div class="mb-4">
+                <input class="form-control images border-dark" type="file" accept="image/*" name="edit_user_image" data-form-type="file, new">
+                {%if messages%}
+                    {%for message in messages%}
+                        {% if 'edit_user_image' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                    {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-none" style="background-color: #00AFB9;">
+                    <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+            </div>
+            <div class="row mt-12 mt-md-10 justify-content-between align-items-center mx-auto">
+                <button class="btn text-black border-dark p-1" id="cancel_picture_edit" data-form-type="action,cancel" style="height: 50px; background-color: #0081A7;">Cancel</button>
+                <button class="btn text-black border-dark p-1 mt-4" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;">Save</button>
+            </div>
+        </form>
+    </div>
+{% endif %}

@@ -1,24 +1,120 @@
-{% extends 'baba_barter/base.html' %} 
-{% block title %} Edit Profile - Baba Barter {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
 {% load static %}
-{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/edit_profile.css' %}"> {% endblock %}
-{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/edit_profile.js' %}"></script> {% endblock %}
-
-{% block header %} {% endblock %}
-{% block content %} 
-  {% if user %}
-    <div class="mw-md mx-auto p-4">
-      <h5 class="mb-10 font-bold">Edit profile:</h5>
-      <form action="" method="post" data-form-type="register" id="edit_profile_form">
-        {% csrf_token %}
-        <label for="user_description fw-bold">About</label>
-        <textarea class="form-control mb-4 border-dark user_description mt-2" form="edit_profile_form" name="user_description" data-form-type="text" rows="3" required>{{user.description}}</textarea>
-        <div class="row mt-12 mt-md-10 justify-content-between d-flex p-4">
-          <button class="btn btn-link fw-bold col-sm-12 col-md-6 p-1" id="cancel" data-form-type="action,cancel" style="width: 200px; height: 50px; color: #0081A7;">Cancel</button>
-          <button class="col-sm-12 col-md-6 btn text-black border-dark p-1" type="submit" data-form-type="action,register" style="background-color: #f07167; width: 200px; height: 50px;">Save</button>
+<link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/edit_profile.css' %}">
+<script type="text/javascript" src="{% static 'baba_barter/js/edit_profile.js' %}"></script>
+{% if user %}
+  <div class="mw-xl me-md-10 me-lg-10 mt-md-12 mt-0 mb-10 px-4 ms-lg-20" id="edit_profile">
+    <h5 class="mb-10 font-bold">Edit profile:</h5>
+    <form action="{% url 'baba:process_edit_profile' %}" method="post" data-form-type="register" id="edit_profile_form">
+      {% csrf_token %}
+      <div class="mb-4">
+          <input class="form-control border-dark" type="text" name="edit_first_name" data-form-type="text" value="{{user.first_name}}" required>
+          {%if messages%}
+              {%for message in messages%}
+                  {% if 'edit_first_name' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                  {% endif %}
+              {%endfor%}
+          {%endif%}
+          <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+              <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+          </div>
+      </div>
+      <div class="mb-4">
+          <input class="form-control border-dark" type="text" name="edit_last_name" data-form-type="text" value="{{user.last_name}}" required>
+          {%if messages%}
+              {%for message in messages%}
+                  {% if 'edit_last_name' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                  {% endif %}
+              {%endfor%}
+          {%endif%}
+          <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+              <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+          </div>
+      </div>
+      <div class="mb-4">
+          <input class="form-control border-dark" type="email" name="edit_email" data-form-type="email" value="{{user.email}}" required>
+          {%if messages%}
+              {%for message in messages%}
+                  {% if 'edit_email' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                  {% endif %}
+              {%endfor%}
+          {%endif%}
+          <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+              <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+          </div>
+      </div>
+      <div class="mb-4">
+          <select class="form-control border-dark category" name="edit_gender" id="gender_edit" required>
+            <option value="male" {% if user.gender == 'male' %} selected {% endif %}>Male</option>
+            <option value="female" {% if user.gender == 'female' %} selected {% endif %}>Female</option>
+            <option value="other" {% if user.gender == 'other' %} selected {% endif %}>Other</option>
+          </select>
+          {%if messages%}
+            {%for message in messages%}
+              {% if 'edit_gender' in message.extra_tags %}
+                <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+              {% endif %}
+            {%endfor%}
+          {%endif%}
+          <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+            <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+          </div>
+      </div>
+      <div class="mb-4">
+        <h6 for="user_description fw-bold">About</h6>
+        <textarea class="form-control mb-4 border-dark user_description mt-2" form="edit_profile_form" name="edit_description" data-form-type="text" rows="3" required>{{user.description}}</textarea>
+        {%if messages%}
+          {%for message in messages%}
+            {% if 'edit_description' in message.extra_tags %}
+              <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+            {% endif %}
+          {%endfor%}
+        {%endif%}
+        <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+          <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
         </div>
-      </form>
-    </div>
-  {% endif %}
-{% endblock %}
-{% block footer %} {% endblock %}
+      </div>
+      <div class="mb-4">
+        <h6 for="user_description fw-bold">Password</h6>
+        <input class="form-control border-dark" type="password" name="edit_current_password" placeholder="Current password" data-form-type="password">
+        {%if messages%}
+            {%for message in messages%}
+                {% if 'edit_current_password' in message.extra_tags %}
+                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                {% endif %}
+            {%endfor%}
+        {%endif%}
+      </div>
+      <div class="mb-4">
+        <input class="form-control border-dark" type="password" name="edit_new_password" placeholder="New password" data-form-type="password">
+        {%if messages%}
+            {%for message in messages%}
+                {% if 'edit_new_password' in message.extra_tags %}
+                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                {% endif %}
+            {%endfor%}
+        {%endif%}
+      </div>
+      <div class="mb-4">
+        <input class="form-control border-dark" type="password" name="edit_new_password_confirmation" placeholder="Confirm new password" data-form-type="password">
+        {%if messages%}
+            {%for message in messages%}
+                {% if 'edit_new_password_confirmation' in message.extra_tags %}
+                    <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                {% endif %}
+            {%endfor%}
+        {%endif%}
+      </div>
+      <div class="row mt-12 mt-md-10 justify-content-between align-items-center mx-auto">
+        <button class="btn text-black border-dark p-1" id="cancel" data-form-type="action,cancel" style="height: 50px; background-color: #0081A7;">Cancel</button>
+        <button class="btn text-black border-dark p-1 mt-4" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;" id="save_profile">Save</button>
+      </div>
+    </form>
+  </div>
+{% endif %}

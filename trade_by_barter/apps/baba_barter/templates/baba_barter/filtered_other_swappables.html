@@ -1,0 +1,31 @@
+{% if no_swappable_message %}
+    <p>{{no_swappable_message}}</p>
+{% else %}
+    {% if other_swappables %}
+        {% for swappable in other_swappables %}
+            {% for swappable_image in swappable.swappable_image.all %}
+                {% if swappable_image.main == True %}
+                    <div class="col-12 border-dark border mb-4 mt-4 p-4" style="background-color: #FDFCDC; border-radius: 15px;">
+                        <div class="">
+                            <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                                <div class="row mb-4">
+                                    <div>
+                                        <img class="mx-auto img-fluid w-100" style="height: 500px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                    </div>
+                                    <div class="p-md-4 py-4">
+                                        <h3>{{swappable.name}}</h3>
+                                        <p style="overflow-wrap: break-word;" class="text-muted">{{swappable.short_description}}</p>
+                                        <p class="text-info">${{swappable.value}}</p>
+                                        {% for cat in swappable.sub_categories.all %}
+                                            <small><span>{{cat.name}}, </span></small>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endif %}

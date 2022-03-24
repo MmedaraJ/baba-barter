@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Create Swappable</title>
+    <title>Create Swappable - Baba Barter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -16,126 +16,559 @@
     <script src="{% static 'baba_barter/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'baba_barter/js/create_swappable.js' %}"></script>
   </head>
-  <body style="background-color: #FDFCDC;">
-    <div class="position-relative container-fluid" style="background-color: #FDFCDC;">
+  <body style="background-color: #ffffff;">
+    <div class="position-relative container-fluid" style="background-color: #ffffff;">
       <div class="row">
         <div class="col-12 col-md-6 mb-12 mb-lg-0 pt-20 py-lg-32 intro pt-md-7 px-10 px-lg-16">
           <h5 class="mb-10 font-bold">Create Swappable:</h5>
           <form action="{% url 'baba:register_swappable' id=user.id %}" method="post" enctype="multipart/form-data" data-form-type="register" id="create_swappable_form">
             {% csrf_token %}
-            <!-- TODO Display error messages -->
-            <input class="form-control mb-4 border-dark" type="text" name="name" placeholder="Swappable Name" data-form-type="text, new" required>
-            <select class="form-control mb-4 border-dark type" name="type" id="type" required>
-              <option value="none" selected>Product or Service</option>
-              <option value="product">Product</option>
-              <option value="service">Service</option>
-            </select>
-            <select class="form-control mb-4 border-dark category" name="category" id="category" required>
-              <option value="none" selected>Select a category</option>
-              <option value="shoe">Shoe</option>
-              <option value="clothing">Clothing</option>
-              <option value="technology">Technology</option>
-              <option value="fashion">Fashion</option>
-              <option value="other">Other</option>
-            </select>
-            <input class="form-control mb-4 border-dark" type="text" name="sub_categories" placeholder="Sub Categories" data-form-type="text, new">
-            <input class="form-control mb-4 border-dark" type="text" name="short_description" placeholder="Short description.." data-form-type="text, new" required>
-            <textarea class="form-control mb-4 border-dark long_description" form="create_swappable_form" name="long_description" placeholder="Long description.." data-form-type="text, new" rows="3"></textarea>
-            <textarea class="form-control mb-4 border-dark notes" form="create_swappable_form" name="notes" placeholder="Extra notes.." data-form-type="text, new" rows="2"></textarea>
-            <input class="form-control mb-4 images border-dark" type="file" accept="image/*" name="images" placeholder="Images" data-form-type="file, new" required multiple>
-            <input class="form-control mb-4 border-dark" type="number" name="value" placeholder="Value" data-form-type="number, new" required>
-            <select class="form-control mb-4 border-dark currency" name="currency" id="currency" required>
-              <option value="none" selected>Select a currency</option>
-              <option value="USD">United States Dollars</option>
-              <option value="EUR">Euro</option>
-              <option value="GBP">United Kingdom Pounds</option>
-              <option value="DZD">Algeria Dinars</option>
-              <option value="ARP">Argentina Pesos</option>
-              <option value="AUD">Australia Dollars</option>
-              <option value="ATS">Austria Schillings</option>
-              <option value="BSD">Bahamas Dollars</option>
-              <option value="BBD">Barbados Dollars</option>
-              <option value="BEF">Belgium Francs</option>
-              <option value="BMD">Bermuda Dollars</option>
-              <option value="BRR">Brazil Real</option>
-              <option value="BGL">Bulgaria Lev</option>
-              <option value="CAD">Canada Dollars</option>
-              <option value="CLP">Chile Pesos</option>
-              <option value="CNY">China Yuan Renmimbi</option>
-              <option value="CYP">Cyprus Pounds</option>
-              <option value="CSK">Czech Republic Koruna</option>
-              <option value="DKK">Denmark Kroner</option>
-              <option value="NLG">Dutch Guilders</option>
-              <option value="XCD">Eastern Caribbean Dollars</option>
-              <option value="EGP">Egypt Pounds</option>
-              <option value="FJD">Fiji Dollars</option>
-              <option value="FIM">Finland Markka</option>
-              <option value="FRF">France Francs</option>
-              <option value="DEM">Germany Deutsche Marks</option>
-              <option value="XAU">Gold Ounces</option>
-              <option value="GRD">Greece Drachmas</option>
-              <option value="HKD">Hong Kong Dollars</option>
-              <option value="HUF">Hungary Forint</option>
-              <option value="ISK">Iceland Krona</option>
-              <option value="INR">India Rupees</option>
-              <option value="IDR">Indonesia Rupiah</option>
-              <option value="IEP">Ireland Punt</option>
-              <option value="ILS">Israel New Shekels</option>
-              <option value="ITL">Italy Lira</option>
-              <option value="JMD">Jamaica Dollars</option>
-              <option value="JPY">Japan Yen</option>
-              <option value="JOD">Jordan Dinar</option>
-              <option value="KRW">Korea (South) Won</option>
-              <option value="LBP">Lebanon Pounds</option>
-              <option value="LUF">Luxembourg Francs</option>
-              <option value="MYR">Malaysia Ringgit</option>
-              <option value="MXP">Mexico Pesos</option>
-              <option value="NLG">Netherlands Guilders</option>
-              <option value="NZD">New Zealand Dollars</option>
-              <option value="NOK">Norway Kroner</option>
-              <option value="PKR">Pakistan Rupees</option>
-              <option value="XPD">Palladium Ounces</option>
-              <option value="PHP">Philippines Pesos</option>
-              <option value="XPT">Platinum Ounces</option>
-              <option value="PLZ">Poland Zloty</option>
-              <option value="PTE">Portugal Escudo</option>
-              <option value="ROL">Romania Leu</option>
-              <option value="RUR">Russia Rubles</option>
-              <option value="SAR">Saudi Arabia Riyal</option>
-              <option value="XAG">Silver Ounces</option>
-              <option value="SGD">Singapore Dollars</option>
-              <option value="SKK">Slovakia Koruna</option>
-              <option value="ZAR">South Africa Rand</option>
-              <option value="KRW">South Korea Won</option>
-              <option value="ESP">Spain Pesetas</option>
-              <option value="XDR">Special Drawing Right (IMF)</option>
-              <option value="SDD">Sudan Dinar</option>
-              <option value="SEK">Sweden Krona</option>
-              <option value="CHF">Switzerland Francs</option>
-              <option value="TWD">Taiwan Dollars</option>
-              <option value="THB">Thailand Baht</option>
-              <option value="TTD">Trinidad and Tobago Dollars</option>
-              <option value="TRL">Turkey Lira</option>
-              <option value="VEB">Venezuela Bolivar</option>
-              <option value="ZMK">Zambia Kwacha</option>
-              <option value="EUR">Euro</option>
-              <option value="XCD">Eastern Caribbean Dollars</option>
-              <option value="XDR">Special Drawing Right (IMF)</option>
-              <option value="XAG">Silver Ounces</option>
-              <option value="XAU">Gold Ounces</option>
-              <option value="XPD">Palladium Ounces</option>
-              <option value="XPT">Platinum Ounces</option>
-            </select>
-            <label class="form-label" for="condition" id="condition_label">Condition:</label>
-            <input class="form-control mb-4 border-dark" id="condition_range" type="range" name="condition" min="0" max="100" data-form-type="range, new" required>
-            <div class="row px-1 px-lg-4">
-              <button class="btn btn-outline-primary fw-bold mt-12 mt-md-10 col-12 mx-auto px col-lg-6 p-1" id="cancel" data-form-type="action,cancel" style="width: 200px; height: 50px; color: #0081A7;">Cancel</button>
-              <button class="col-12 col-lg-6 btn text-black border-dark mt-12 mt-md-10 mx-auto ms-lg-auto p-1" type="submit" data-form-type="action,register" style="background-color: #f07167; width: 200px; height: 50px;">Save</button>
+            <div class="mb-6">
+              <div class="mb-4">
+                <input class="form-control border-dark" type="text" name="name" placeholder="Swappable Name" data-form-type="text, new" required>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_name' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>fjfnkf fneif efeif ekfe ifkefn ekf efke fejf efej fejfefe fe fejf efb ejfe</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <select class="form-control border-dark type" name="type" id="type" required>
+                  <option value="product" selected>Product</option>
+                  <option value="service">Service</option>
+                </select>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_type' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <select class="form-control border-dark category" name="category" id="category" required>
+                  <option value="shoe" selected>Shoe</option>
+                  <option value="clothing">Clothing</option>
+                  <option value="technology">Technology</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="other">Other</option>
+                </select>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_category' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <input class="form-control border-dark" type="text" name="sub_categories" maxlength="30" placeholder="Sub Categories" data-form-type="text, new">
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_sub_categories' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <input class="form-control border-dark" type="text" name="short_description" maxlength="30" placeholder="Short description.." data-form-type="text, new" required>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_short_description' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <textarea class="form-control border-dark long_description" form="create_swappable_form" name="long_description" placeholder="Long description.." data-form-type="text, new" rows="3"></textarea>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_long_description' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <textarea class="form-control border-dark notes" form="create_swappable_form" name="notes" placeholder="Extra notes.." data-form-type="text, new" rows="2"></textarea>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_notes' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <input class="form-control images border-dark" type="file" accept="image/*" name="images" placeholder="Images" data-form-type="file, new" required multiple>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_images' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <input class="form-control border-dark" type="number" name="value" placeholder="Value" data-form-type="number, new" required>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'swappable_value' in message.extra_tags %}
+                      <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <select class="form-control border-dark currency" name="currency" id="currency" required>
+                  <option value="USD" selected>United States Dollars</option>
+                  <option value="EUR">Euro</option>
+                  <option value="GBP">United Kingdom Pounds</option>
+                  <option value="DZD">Algeria Dinars</option>
+                  <option value="ARP">Argentina Pesos</option>
+                  <option value="AUD">Australia Dollars</option>
+                  <option value="ATS">Austria Schillings</option>
+                  <option value="BSD">Bahamas Dollars</option>
+                  <option value="BBD">Barbados Dollars</option>
+                  <option value="BEF">Belgium Francs</option>
+                  <option value="BMD">Bermuda Dollars</option>
+                  <option value="BRR">Brazil Real</option>
+                  <option value="BGL">Bulgaria Lev</option>
+                  <option value="CAD">Canada Dollars</option>
+                  <option value="CLP">Chile Pesos</option>
+                  <option value="CNY">China Yuan Renmimbi</option>
+                  <option value="CYP">Cyprus Pounds</option>
+                  <option value="CSK">Czech Republic Koruna</option>
+                  <option value="DKK">Denmark Kroner</option>
+                  <option value="NLG">Dutch Guilders</option>
+                  <option value="XCD">Eastern Caribbean Dollars</option>
+                  <option value="EGP">Egypt Pounds</option>
+                  <option value="FJD">Fiji Dollars</option>
+                  <option value="FIM">Finland Markka</option>
+                  <option value="FRF">France Francs</option>
+                  <option value="DEM">Germany Deutsche Marks</option>
+                  <option value="XAU">Gold Ounces</option>
+                  <option value="GRD">Greece Drachmas</option>
+                  <option value="HKD">Hong Kong Dollars</option>
+                  <option value="HUF">Hungary Forint</option>
+                  <option value="ISK">Iceland Krona</option>
+                  <option value="INR">India Rupees</option>
+                  <option value="IDR">Indonesia Rupiah</option>
+                  <option value="IEP">Ireland Punt</option>
+                  <option value="ILS">Israel New Shekels</option>
+                  <option value="ITL">Italy Lira</option>
+                  <option value="JMD">Jamaica Dollars</option>
+                  <option value="JPY">Japan Yen</option>
+                  <option value="JOD">Jordan Dinar</option>
+                  <option value="KRW">Korea (South) Won</option>
+                  <option value="LBP">Lebanon Pounds</option>
+                  <option value="LUF">Luxembourg Francs</option>
+                  <option value="MYR">Malaysia Ringgit</option>
+                  <option value="MXP">Mexico Pesos</option>
+                  <option value="NLG">Netherlands Guilders</option>
+                  <option value="NZD">New Zealand Dollars</option>
+                  <option value="NOK">Norway Kroner</option>
+                  <option value="PKR">Pakistan Rupees</option>
+                  <option value="XPD">Palladium Ounces</option>
+                  <option value="PHP">Philippines Pesos</option>
+                  <option value="XPT">Platinum Ounces</option>
+                  <option value="PLZ">Poland Zloty</option>
+                  <option value="PTE">Portugal Escudo</option>
+                  <option value="ROL">Romania Leu</option>
+                  <option value="RUR">Russia Rubles</option>
+                  <option value="SAR">Saudi Arabia Riyal</option>
+                  <option value="XAG">Silver Ounces</option>
+                  <option value="SGD">Singapore Dollars</option>
+                  <option value="SKK">Slovakia Koruna</option>
+                  <option value="ZAR">South Africa Rand</option>
+                  <option value="KRW">South Korea Won</option>
+                  <option value="ESP">Spain Pesetas</option>
+                  <option value="XDR">Special Drawing Right (IMF)</option>
+                  <option value="SDD">Sudan Dinar</option>
+                  <option value="SEK">Sweden Krona</option>
+                  <option value="CHF">Switzerland Francs</option>
+                  <option value="TWD">Taiwan Dollars</option>
+                  <option value="THB">Thailand Baht</option>
+                  <option value="TTD">Trinidad and Tobago Dollars</option>
+                  <option value="TRL">Turkey Lira</option>
+                  <option value="VEB">Venezuela Bolivar</option>
+                  <option value="ZMK">Zambia Kwacha</option>
+                  <option value="EUR">Euro</option>
+                  <option value="XCD">Eastern Caribbean Dollars</option>
+                  <option value="XDR">Special Drawing Right (IMF)</option>
+                  <option value="XAG">Silver Ounces</option>
+                  <option value="XAU">Gold Ounces</option>
+                  <option value="XPD">Palladium Ounces</option>
+                  <option value="XPT">Platinum Ounces</option>
+                </select>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'signin_email_input' in message.extra_tags %}
+                      <small style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label" for="condition" id="condition_label">Condition:</label>
+                <input class="form-control border-dark" id="condition_range" type="range" name="condition" min="0" max="100" data-form-type="range, new" required>
+                {%if messages%}
+                  {%for message in messages%}
+                    {% if 'signin_email_input' in message.extra_tags %}
+                      <small style="color: red;" class="{{message.tags}}">{{message}}</small>
+                    {% endif %}
+                  {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                  <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h6>Location:</h6>
+              <div>
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-4">
+                    <input class="form-control border-dark" type="text" name="city" placeholder="City" data-form-type="text, new" required>
+                    {%if messages%}
+                      {%for message in messages%}
+                        {% if 'signin_email_input' in message.extra_tags %}
+                          <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                      {%endfor%}
+                    {%endif%}
+                  </div>
+                  <div class="col-12 col-md-6 mb-4">
+                    <input class="form-control border-dark" type="text" name="code" placeholder="Postal/Zip Code (optional)" data-form-type="text, new">
+                    {%if messages%}
+                      {%for message in messages%}
+                        {% if 'signin_email_input' in message.extra_tags %}
+                          <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                      {%endfor%}
+                    {%endif%}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-4">
+                    <input class="form-control border-dark" type="text" name="state" placeholder="State/Province" data-form-type="text, new" required>
+                    {%if messages%}
+                      {%for message in messages%}
+                        {% if 'signin_email_input' in message.extra_tags %}
+                          <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                      {%endfor%}
+                    {%endif%}
+                  </div>
+                  <div class="col-12 col-md-6 mb-4">
+                    <select name="country" id="country" class="form-control border-dark country" style="background-color: #fed9b7;" required>
+                      <option value="Afganistan" selected>Afghanistan</option>
+                      <option value="Albania">Albania</option>
+                      <option value="Algeria">Algeria</option>
+                      <option value="American Samoa">American Samoa</option>
+                      <option value="Andorra">Andorra</option>
+                      <option value="Angola">Angola</option>
+                      <option value="Anguilla">Anguilla</option>
+                      <option value="Antigua & Barbuda">Antigua & Barbuda</option>
+                      <option value="Argentina">Argentina</option>
+                      <option value="Armenia">Armenia</option>
+                      <option value="Aruba">Aruba</option>
+                      <option value="Australia">Australia</option>
+                      <option value="Austria">Austria</option>
+                      <option value="Azerbaijan">Azerbaijan</option>
+                      <option value="Bahamas">Bahamas</option>
+                      <option value="Bahrain">Bahrain</option>
+                      <option value="Bangladesh">Bangladesh</option>
+                      <option value="Barbados">Barbados</option>
+                      <option value="Belarus">Belarus</option>
+                      <option value="Belgium">Belgium</option>
+                      <option value="Belize">Belize</option>
+                      <option value="Benin">Benin</option>
+                      <option value="Bermuda">Bermuda</option>
+                      <option value="Bhutan">Bhutan</option>
+                      <option value="Bolivia">Bolivia</option>
+                      <option value="Bonaire">Bonaire</option>
+                      <option value="Bosnia & Herzegovina">Bosnia & Herzegovina</option>
+                      <option value="Botswana">Botswana</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="British Indian Ocean Ter">British Indian Ocean Ter</option>
+                      <option value="Brunei">Brunei</option>
+                      <option value="Bulgaria">Bulgaria</option>
+                      <option value="Burkina Faso">Burkina Faso</option>
+                      <option value="Burundi">Burundi</option>
+                      <option value="Cambodia">Cambodia</option>
+                      <option value="Cameroon">Cameroon</option>
+                      <option value="Canada">Canada</option>
+                      <option value="Canary Islands">Canary Islands</option>
+                      <option value="Cape Verde">Cape Verde</option>
+                      <option value="Cayman Islands">Cayman Islands</option>
+                      <option value="Central African Republic">Central African Republic</option>
+                      <option value="Chad">Chad</option>
+                      <option value="Channel Islands">Channel Islands</option>
+                      <option value="Chile">Chile</option>
+                      <option value="China">China</option>
+                      <option value="Christmas Island">Christmas Island</option>
+                      <option value="Cocos Island">Cocos Island</option>
+                      <option value="Colombia">Colombia</option>
+                      <option value="Comoros">Comoros</option>
+                      <option value="Congo">Congo</option>
+                      <option value="Cook Islands">Cook Islands</option>
+                      <option value="Costa Rica">Costa Rica</option>
+                      <option value="Cote DIvoire">Cote DIvoire</option>
+                      <option value="Croatia">Croatia</option>
+                      <option value="Cuba">Cuba</option>
+                      <option value="Curaco">Curacao</option>
+                      <option value="Cyprus">Cyprus</option>
+                      <option value="Czech Republic">Czech Republic</option>
+                      <option value="Denmark">Denmark</option>
+                      <option value="Djibouti">Djibouti</option>
+                      <option value="Dominica">Dominica</option>
+                      <option value="Dominican Republic">Dominican Republic</option>
+                      <option value="East Timor">East Timor</option>
+                      <option value="Ecuador">Ecuador</option>
+                      <option value="Egypt">Egypt</option>
+                      <option value="El Salvador">El Salvador</option>
+                      <option value="Equatorial Guinea">Equatorial Guinea</option>
+                      <option value="Eritrea">Eritrea</option>
+                      <option value="Estonia">Estonia</option>
+                      <option value="Ethiopia">Ethiopia</option>
+                      <option value="Falkland Islands">Falkland Islands</option>
+                      <option value="Faroe Islands">Faroe Islands</option>
+                      <option value="Fiji">Fiji</option>
+                      <option value="Finland">Finland</option>
+                      <option value="France">France</option>
+                      <option value="French Guiana">French Guiana</option>
+                      <option value="French Polynesia">French Polynesia</option>
+                      <option value="French Southern Ter">French Southern Ter</option>
+                      <option value="Gabon">Gabon</option>
+                      <option value="Gambia">Gambia</option>
+                      <option value="Georgia">Georgia</option>
+                      <option value="Germany">Germany</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Gibraltar">Gibraltar</option>
+                      <option value="Great Britain">Great Britain</option>
+                      <option value="Greece">Greece</option>
+                      <option value="Greenland">Greenland</option>
+                      <option value="Grenada">Grenada</option>
+                      <option value="Guadeloupe">Guadeloupe</option>
+                      <option value="Guam">Guam</option>
+                      <option value="Guatemala">Guatemala</option>
+                      <option value="Guinea">Guinea</option>
+                      <option value="Guyana">Guyana</option>
+                      <option value="Haiti">Haiti</option>
+                      <option value="Hawaii">Hawaii</option>
+                      <option value="Honduras">Honduras</option>
+                      <option value="Hong Kong">Hong Kong</option>
+                      <option value="Hungary">Hungary</option>
+                      <option value="Iceland">Iceland</option>
+                      <option value="Indonesia">Indonesia</option>
+                      <option value="India">India</option>
+                      <option value="Iran">Iran</option>
+                      <option value="Iraq">Iraq</option>
+                      <option value="Ireland">Ireland</option>
+                      <option value="Isle of Man">Isle of Man</option>
+                      <option value="Israel">Israel</option>
+                      <option value="Italy">Italy</option>
+                      <option value="Jamaica">Jamaica</option>
+                      <option value="Japan">Japan</option>
+                      <option value="Jordan">Jordan</option>
+                      <option value="Kazakhstan">Kazakhstan</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Kiribati">Kiribati</option>
+                      <option value="Korea North">Korea North</option>
+                      <option value="Korea Sout">Korea South</option>
+                      <option value="Kuwait">Kuwait</option>
+                      <option value="Kyrgyzstan">Kyrgyzstan</option>
+                      <option value="Laos">Laos</option>
+                      <option value="Latvia">Latvia</option>
+                      <option value="Lebanon">Lebanon</option>
+                      <option value="Lesotho">Lesotho</option>
+                      <option value="Liberia">Liberia</option>
+                      <option value="Libya">Libya</option>
+                      <option value="Liechtenstein">Liechtenstein</option>
+                      <option value="Lithuania">Lithuania</option>
+                      <option value="Luxembourg">Luxembourg</option>
+                      <option value="Macau">Macau</option>
+                      <option value="Macedonia">Macedonia</option>
+                      <option value="Madagascar">Madagascar</option>
+                      <option value="Malaysia">Malaysia</option>
+                      <option value="Malawi">Malawi</option>
+                      <option value="Maldives">Maldives</option>
+                      <option value="Mali">Mali</option>
+                      <option value="Malta">Malta</option>
+                      <option value="Marshall Islands">Marshall Islands</option>
+                      <option value="Martinique">Martinique</option>
+                      <option value="Mauritania">Mauritania</option>
+                      <option value="Mauritius">Mauritius</option>
+                      <option value="Mayotte">Mayotte</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Midway Islands">Midway Islands</option>
+                      <option value="Moldova">Moldova</option>
+                      <option value="Monaco">Monaco</option>
+                      <option value="Mongolia">Mongolia</option>
+                      <option value="Montserrat">Montserrat</option>
+                      <option value="Morocco">Morocco</option>
+                      <option value="Mozambique">Mozambique</option>
+                      <option value="Myanmar">Myanmar</option>
+                      <option value="Nambia">Nambia</option>
+                      <option value="Nauru">Nauru</option>
+                      <option value="Nepal">Nepal</option>
+                      <option value="Netherland Antilles">Netherland Antilles</option>
+                      <option value="Netherlands">Netherlands (Holland, Europe)</option>
+                      <option value="Nevis">Nevis</option>
+                      <option value="New Caledonia">New Caledonia</option>
+                      <option value="New Zealand">New Zealand</option>
+                      <option value="Nicaragua">Nicaragua</option>
+                      <option value="Niger">Niger</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="Niue">Niue</option>
+                      <option value="Norfolk Island">Norfolk Island</option>
+                      <option value="Norway">Norway</option>
+                      <option value="Oman">Oman</option>
+                      <option value="Pakistan">Pakistan</option>
+                      <option value="Palau Island">Palau Island</option>
+                      <option value="Palestine">Palestine</option>
+                      <option value="Panama">Panama</option>
+                      <option value="Papua New Guinea">Papua New Guinea</option>
+                      <option value="Paraguay">Paraguay</option>
+                      <option value="Peru">Peru</option>
+                      <option value="Phillipines">Philippines</option>
+                      <option value="Pitcairn Island">Pitcairn Island</option>
+                      <option value="Poland">Poland</option>
+                      <option value="Portugal">Portugal</option>
+                      <option value="Puerto Rico">Puerto Rico</option>
+                      <option value="Qatar">Qatar</option>
+                      <option value="Republic of Montenegro">Republic of Montenegro</option>
+                      <option value="Republic of Serbia">Republic of Serbia</option>
+                      <option value="Reunion">Reunion</option>
+                      <option value="Romania">Romania</option>
+                      <option value="Russia">Russia</option>
+                      <option value="Rwanda">Rwanda</option>
+                      <option value="St Barthelemy">St Barthelemy</option>
+                      <option value="St Eustatius">St Eustatius</option>
+                      <option value="St Helena">St Helena</option>
+                      <option value="St Kitts-Nevis">St Kitts-Nevis</option>
+                      <option value="St Lucia">St Lucia</option>
+                      <option value="St Maarten">St Maarten</option>
+                      <option value="St Pierre & Miquelon">St Pierre & Miquelon</option>
+                      <option value="St Vincent & Grenadines">St Vincent & Grenadines</option>
+                      <option value="Saipan">Saipan</option>
+                      <option value="Samoa">Samoa</option>
+                      <option value="Samoa American">Samoa American</option>
+                      <option value="San Marino">San Marino</option>
+                      <option value="Sao Tome & Principe">Sao Tome & Principe</option>
+                      <option value="Saudi Arabia">Saudi Arabia</option>
+                      <option value="Senegal">Senegal</option>
+                      <option value="Seychelles">Seychelles</option>
+                      <option value="Sierra Leone">Sierra Leone</option>
+                      <option value="Singapore">Singapore</option>
+                      <option value="Slovakia">Slovakia</option>
+                      <option value="Slovenia">Slovenia</option>
+                      <option value="Solomon Islands">Solomon Islands</option>
+                      <option value="Somalia">Somalia</option>
+                      <option value="South Africa">South Africa</option>
+                      <option value="Spain">Spain</option>
+                      <option value="Sri Lanka">Sri Lanka</option>
+                      <option value="Sudan">Sudan</option>
+                      <option value="Suriname">Suriname</option>
+                      <option value="Swaziland">Swaziland</option>
+                      <option value="Sweden">Sweden</option>
+                      <option value="Switzerland">Switzerland</option>
+                      <option value="Syria">Syria</option>
+                      <option value="Tahiti">Tahiti</option>
+                      <option value="Taiwan">Taiwan</option>
+                      <option value="Tajikistan">Tajikistan</option>
+                      <option value="Tanzania">Tanzania</option>
+                      <option value="Thailand">Thailand</option>
+                      <option value="Togo">Togo</option>
+                      <option value="Tokelau">Tokelau</option>
+                      <option value="Tonga">Tonga</option>
+                      <option value="Trinidad & Tobago">Trinidad & Tobago</option>
+                      <option value="Tunisia">Tunisia</option>
+                      <option value="Turkey">Turkey</option>
+                      <option value="Turkmenistan">Turkmenistan</option>
+                      <option value="Turks & Caicos Is">Turks & Caicos Is</option>
+                      <option value="Tuvalu">Tuvalu</option>
+                      <option value="Uganda">Uganda</option>
+                      <option value="United Kingdom">United Kingdom</option>
+                      <option value="Ukraine">Ukraine</option>
+                      <option value="United Arab Erimates">United Arab Emirates</option>
+                      <option value="United States of America">United States of America</option>
+                      <option value="Uraguay">Uruguay</option>
+                      <option value="Uzbekistan">Uzbekistan</option>
+                      <option value="Vanuatu">Vanuatu</option>
+                      <option value="Vatican City State">Vatican City State</option>
+                      <option value="Venezuela">Venezuela</option>
+                      <option value="Vietnam">Vietnam</option>
+                      <option value="Virgin Islands (Brit)">Virgin Islands (Brit)</option>
+                      <option value="Virgin Islands (USA)">Virgin Islands (USA)</option>
+                      <option value="Wake Island">Wake Island</option>
+                      <option value="Wallis & Futana Is">Wallis & Futana Is</option>
+                      <option value="Yemen">Yemen</option>
+                      <option value="Zaire">Zaire</option>
+                      <option value="Zambia">Zambia</option>
+                      <option value="Zimbabwe">Zimbabwe</option>
+                   </select>
+                   {%if messages%}
+                     {%for message in messages%}
+                       {% if 'signin_email_input' in message.extra_tags %}
+                         <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                       {% endif %}
+                     {%endfor%}
+                   {%endif%}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-md-6 mb-4">
+                    <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                      <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mx-auto mt-6 align-items-center justify-content-between">
+              <button class="btn btn-outline-primary fw-bold p-1 mb-4" id="cancel" data-form-type="action,cancel" style="height: 50px; color: #0081A7;">Cancel</button>
+              <button class="btn text-black border-dark p-1" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;">Save</button>
             </div>
           </form>
         </div>
         <!-- TODO Include Tips -->
-        <div class="row col-12 col-md-6 mb-12 mb-lg-0 px-10 py-lg-32 intro pt-md-7 mx-0 px-lg-16">
+        <div class="row d-none d-md-flex col-12 col-md-6 mb-12 mb-lg-0 px-10 py-lg-32 intro pt-md-7 mx-0 px-lg-16">
           <div class="p-10" style="background-color: #00AFB9;">
             Tips
           </div>

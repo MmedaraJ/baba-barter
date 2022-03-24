@@ -1,0 +1,47 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/report_user.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/report_user.js' %}"></script> {% endblock %}
+
+{% if user %}
+    <div class="mw-xl me-md-10 me-lg-10 mt-md-12 mt-0 mb-10 px-4 ms-lg-20" id="report_profile">
+        <h5 class="mb-4 font-bold">Report {{user.first_name}} {{user.last_name}}:</h5>
+        <form action="{% url 'baba:process_report_user' id=user.id %}" method="post" id="report_user_form">
+            {% csrf_token %}
+            <div class="mb-4">
+                <textarea class="form-control border-dark report_user_message mt-2" form="report_user_form" name="report_user_message" data-form-type="text" rows="3"></textarea>
+                {%if messages%}
+                    {%for message in messages%}
+                        {% if 'report_user_message' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                    {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                    <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="report_images fw-bold">Pictures</label>
+                <input class="form-control images border-dark" type="file" accept="image/*" name="report_images" data-form-type="file, new" multiple>
+                {%if messages%}
+                    {%for message in messages%}
+                        {% if 'report_user_images' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                    {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                    <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+            </div>
+            <div class="row mt-12 mt-md-10 justify-content-between align-items-center mx-auto">
+                <button class="btn text-black border-dark p-1" id="cancel_report" type="cancel" data-form-type="action,cancel" style="height: 50px; background-color: #0081A7;">Cancel</button>
+                <button class="btn text-black border-dark p-1 mt-4" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;">Send</button>
+            </div>
+        </form>
+    </div>
+{% endif %}

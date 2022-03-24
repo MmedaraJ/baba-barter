@@ -22,9 +22,9 @@
     {% endblock %}
     {% block content %}
         {% if visited_user %}
-            {% include 'baba_barter/profile_info.html' with image=visited_user_image.image.url reviews="2 reviews" swaps="7 swaps" id=visited_user.id swappables=visited_user_swappable_count|add:" "|add:"swappables" name=visited_user.first_name|add:" "|add:visited_user.last_name join_date=visited_user.created_at description=visited_user.description address="Ottawa, Ontario, Canada" languages="English, French, Spanish" work="Software Engineer" %}
+            {% include "baba_barter/profile_info.html" with image=visited_user_image.image.url report="Report Profile" reviews="2 reviews" swaps="7 swaps" id=visited_user.id swappables=visited_user_swappable_count|add:" "|add:"swappables" name=visited_user.first_name|add:" "|add:visited_user.last_name join_date=visited_user.created_at description=visited_user.description address="Ottawa, Ontario, Canada" languages="English, French, Spanish" work="Software Engineer" %}
         {% else %}
-            {% include 'baba_barter/profile_info.html' with image=user_image.image.url update="Update picture" edit="Edit Profile" reviews="2 reviews" swaps="7 swaps" id=user.id swappables=user_swappable_count|add:" "|add:"swappables" name=user.first_name|add:" "|add:user.last_name join_date=user.created_at description=user.description address="Ottawa, Ontario, Canada" languages="English, French, Spanish" work="Software Engineer" reviews_by_you="Reviews by you" %}
+            {% include "baba_barter/profile_info.html" with image=user_image.image.url update="Update picture" edit="Edit Profile" reviews="2 reviews" swaps="7 swaps" id=user.id swappables=user_swappable_count|add:" "|add:"swappables" name=user.first_name|add:" "|add:user.last_name join_date=user.created_at description=user.description address="Ottawa, Ontario, Canada" languages="English, French, Spanish" work="Software Engineer" reviews_by_you="Reviews by you" %}
         {% endif %}
     {% endblock %}
 {% endif %}
