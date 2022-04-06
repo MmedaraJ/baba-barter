@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
-
 class BabaBarterConfig(AppConfig):
-    name = 'baba_barter'
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'apps.baba_barter'

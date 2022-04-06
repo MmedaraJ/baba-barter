@@ -22,7 +22,7 @@
                 <img class="img-fluid" id="profile_image" src="{% static 'baba_barter/yofte-assets/images/product-bottle.png' %}" alt="" width="40px" height="40px">
             {% endif %}
         {% endblock %}
-        {% block title %} {{swappable.name}} {% endblock %}
+        {% block title %} {{swappable.name}} - Baba Barter {% endblock %}
         {% block content %}
             <section class="py-20 overflow-hidden">
                 <div class="container">
@@ -99,12 +99,27 @@
                                         {% if edit == True %}
                                             <a id="edit_profile_link" href="{% url 'baba:edit_swappable' id=swappable.id %}" style="color: #0081A7;">Edit</a>
                                         {% else %}
-                                            <a id="report_profile_link" href="#" style="color: #0081A7;">Report</a>
+                                            <a id="report_profile_link" href="{% url 'baba:report_swappable' id=swappable.id %}" style="color: #0081A7;" data-id="{{swappable.id}}">Report</a>
                                         {% endif %}
                                     </div>
                                     <div class="mb-8 mt-0">
                                         <small class="text-muted mb-2">Added {{swappable.created_at|naturaltime}}</small>
                                     </div>
+                                    {%if messages%}
+                                        {%for message in messages%}
+                                            {% if 'report_swappable_sucess' in message.extra_tags %}
+                                                <div class="mw-xl me-md-10 mt-md-4 mt-0 mb-4">
+                                                    <p style="color: green;" class="{{message.tags}}">{{message}}</p>
+                                                </div>
+                                            {% endif %}
+                                            {% if 'report_swappable_message' in message.extra_tags %}
+                                                <div class="mw-xl me-md-10 mt-md-4 mt-0 mb-4">
+                                                    <p style="color: red;" class="{{message.tags}}">{{message}}</p>
+                                                </div>
+                                            {% endif %}
+                                        {%endfor%}
+                                    {%endif%}
+                                    <div class="mb-8" id="placeholder"></div>
                                     <p class="d-inline-block h5 mb-8">
                                         <span>Value: ${{swappable.value|intcomma}}</span>
                                     </p>

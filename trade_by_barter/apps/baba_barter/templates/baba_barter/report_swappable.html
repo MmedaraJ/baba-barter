@@ -1,0 +1,47 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/js/utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+{% load static %}
+{% block css %} <link rel="stylesheet" type="text/css" href="{% static 'baba_barter/css/report_swappable.css' %}"> {% endblock %}
+{% block js %} <script type="text/javascript" src="{% static 'baba_barter/js/report_swappable.js' %}"></script> {% endblock %}
+
+{% if swappable %}
+    <div class="mw-xl me-md-10 mt-md-12 mt-0 mb-10" id="report_swappable">
+        <h5 class="mb-4 font-bold">Report {{swappable.user.first_name}}'s {{swappable.name}}:</h5>
+        <form action="{% url 'baba:process_report_swappable' id=swappable.id %}" method="post" id="report_swappable_form">
+            {% csrf_token %}
+            <div class="mb-4">
+                <textarea class="form-control border-dark report_swappable_message mt-2" form="report_swappable_form" name="report_swappable_message" data-form-type="text" rows="3"></textarea>
+                {%if messages%}
+                    {%for message in messages%}
+                        {% if 'report_swappable_message' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                    {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                    <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="report_images fw-bold">Pictures</label>
+                <input class="form-control images border-dark" type="file" accept="image/*" name="report_swappable_images" data-form-type="file, new" multiple>
+                {%if messages%}
+                    {%for message in messages%}
+                        {% if 'report_swappable_images' in message.extra_tags %}
+                            <small  style="color: red;" class="{{message.tags}}">{{message}}</small>
+                        {% endif %}
+                    {%endfor%}
+                {%endif%}
+                <div class="p-4 mt-2 d-flex d-md-none" style="background-color: #00AFB9;">
+                    <p>gfehfjh fbsfj hsfbvsufjsv fhsfshfbs jfbsfbj hsfh bsfjhs fjsfsjf dsbfks fsd fbd</p>
+                </div>
+            </div>
+            <div class="row mt-12 mt-md-10 justify-content-between align-items-center mx-auto">
+                <button class="btn text-black border-dark p-1" id="cancel_report_swappable" type="cancel" data-form-type="action,cancel" style="height: 50px; background-color: #0081A7;">Cancel</button>
+                <button class="btn text-black border-dark p-1 mt-4" type="submit" data-form-type="action,register" style="background-color: #f07167; height: 50px;">Send</button>
+            </div>
+        </form>
+    </div>
+{% endif %}

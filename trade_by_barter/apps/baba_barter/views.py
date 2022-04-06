@@ -3,13 +3,13 @@ from django.shortcuts import redirect, render, reverse
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from .models import SwappableAddress, User, Swappable, SubCategory, \
-    Category, UserImage, SwappableImage, UserFlag, UserFlagImage
+from .models import SwappableAddress, User, Swappable, SubCategory, SwappableFlagImage, \
+    Category, UserImage, SwappableImage, UserFlag, UserFlagImage, SwappableFlag
 import bcrypt
 from PIL import Image
 
@@ -56,7 +56,7 @@ def process_signup(request):
                 messages.error(request, v, extra_tags=k)
             return redirect(reverse('baba:signup'))
         else:
-            user_password_hash = bcrypt.hashpw(request.POST['signup_password_input'].encode(), bcrypt.gensalt())
+            user_password_hash = bcrypt.hashpw(request.POST['signup_password_input'].encode("utf-8"), bcrypt.gensalt())
             user = User(first_name=request.POST['signup_first_name_input'], last_name=request.POST['signup_last_name_input'], 
                 email=request.POST['signup_email_input'], password_hash=user_password_hash, token_count=0, has_paid=True,
                 date_of_birth=request.POST['signup_date_of_birth_input'], description=request.POST['signup_description_input']
@@ -74,6 +74,7 @@ def process_signup(request):
 def send_activation_email(request, user, email_input, html, mail_subject):
     current_site = get_current_site(request)
     mail_subject = mail_subject
+    print(urlsafe_base64_encode(force_bytes(user.id)))
     context = {
         'user': user,
         'domain': current_site.domain,
@@ -86,7 +87,7 @@ def send_activation_email(request, user, email_input, html, mail_subject):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(id=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -118,7 +119,7 @@ def process_signin(request):
                 context = {
                     'user': user,
                     'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.id)),
+                    'uid': urlsafe_base64_encode(force_bytes(user.id)).decode(),
                     'token': account_activation_token.make_token(user),
                 }
                 message = render_to_string('baba_barter/acc_active_email.html', context)
@@ -198,7 +199,7 @@ def process_edit_profile(request):
                         context = {
                             'user': user,
                             'domain': current_site.domain,
-                            'uid': urlsafe_base64_encode(force_bytes(user.id)),
+                            'uid': urlsafe_base64_encode(force_bytes(user.id)).decode(),
                             'token': account_activation_token.make_token(user),
                         }
                         message = render_to_string('baba_barter/acc_new_email.html', context)
@@ -212,7 +213,7 @@ def process_edit_profile(request):
 
 def activate_new_email(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(id=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -637,3 +638,55 @@ def filter_category(request, id):
                 context['no_swappable_message'] = "No swappables match your search result"
             return render(request, 'baba_barter/filtered_swappables.html', context)
     return redirect(reverse('baba:intro'))
+
+@csrf_exempt
+def report_swappable(request, id):
+    if 'user_id' in request.session:
+        if request.method =='POST':
+            context = {
+                'swappable': Swappable.objects.filter(id=id)[0]
+            }
+            return render(request, 'baba_barter/report_swappable.html', context)
+        return redirect(reverse('baba:show_swappable', kwargs={'id':id}))
+    return redirect(reverse('baba:intro'))
+
+def process_report_swappable(request, id):
+    if 'user_id' in request.session:
+        flagger_user = User.objects.filter(id=request.session['user_id'])
+        if len(flagger_user) > 0:
+            flagged_swappable = Swappable.objects.filter(id=id)
+            if len(flagged_swappable) > 0:
+                if request.method =='POST':
+                    errors =  SwappableFlag.objects.swappable_flag_validations(request.POST)
+                    if len(errors):
+                        for k, v in errors.items():
+                            messages.error(request, v, extra_tags=k)
+                        return redirect(reverse('baba:show_swappable', kwargs={'id':id}))
+                    else:
+                        swappable_flag = SwappableFlag(flagged_swappable=flagged_swappable[0], flagger_user=flagger_user[0],
+                            message=request.POST['report_swappable_message'])
+                        swappable_flag.save()
+                        i = 0
+                        for img in request.FILES.getlist('report_swappable_images'):
+                            image_name = f"{swappable_flag.flagger_user.first_name} {swappable_flag.flagger_user.last_name} reports {swappable_flag.flagged_swappable.user.first_name}'s {swappable_flag.flagged_swappable.name} - {i}"
+                            image = SwappableFlagImage(name=image_name, image=img, swappable_flag=swappable_flag)
+                            image.save()
+                            i+=1
+                        messages.success(request, f'We have received your report. We are now looking into this issue', extra_tags='report_swappable_sucess')
+                return redirect(reverse('baba:show_swappable', kwargs={'id':id}))
+            return redirect(reverse('baba:show_user', kwargs={'id':request.session['user_id']}))
+    return redirect(reverse('baba:intro'))
+
+def chat_room(request):
+    context = {
+        'user': User.objects.filter(id=request.session['user_id'])[0]
+    }
+    return render(request, 'baba_barter/chat_room.html', context)
+
+def room(request, room_name):
+    return render(request, 'baba_barter/chat.html', {
+        'room_name': room_name
+    })
+
+def index(request):
+    return render(request, 'baba_barter/index.html')

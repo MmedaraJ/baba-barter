@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'apps.baba_barter',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -152,3 +153,24 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mmedarajosiah@gmail.com'
 EMAIL_HOST_PASSWORD = 'Josiah29.'
 EMAIL_PORT = 587
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+]
+
+# Channels
+ASGI_APPLICATION = 'trade_by_barter.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 'localhost', 6379)],
+        },
+    },
+}

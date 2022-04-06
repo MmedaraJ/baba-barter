@@ -24,18 +24,18 @@
     <div class="container-fluid py-20 px-md-10 px-4">
         {% include 'baba_barter/filter.html' with title="Compare" action="/filter/compare/swappables/"|add:swappable.id id=swappable.id max_value=max_value %}
         <div class="row">
-            <div class="col-12 col-md-6 pe-md-10">
+            <div class="col-12 col-md-6 col-lg-3 pe-md-10">
                 <div class="row" id="placeholder_main">
                     {% if swappable %}
                         <p class="d-none" id="holder" data-id="{{swappable.id}}"></p>
                         {% for swappable_image in swappable.swappable_image.all %}
                             {% if swappable_image.main == True %}
-                                <div class="col-12 border-dark border mb-4 mt-4 p-4" style="background-color: #F07167; border-radius: 15px;">
+                                <div class="col-12 border-dark border mb-4 mt-4" style="border-radius: 15px; background-color: white;">
                                     <div class="">
                                         <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
                                             <div class="row mb-4">
-                                                <div>
-                                                    <img class="mx-auto img-fluid w-100" style="height: 500px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                                <div class="p-0">
+                                                    <img class="mx-auto  img-fluid w-100" style="height: 300px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
                                                 </div>
                                                 <div class="p-md-4 py-4">
                                                     <h3>{{swappable.name}}</h3>
@@ -54,18 +54,18 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-12 col-md-6 ps-md-10">
-                <div class="row" id="placeholder_other" style="overflow-y: scroll; height: 1000px;">
+            <div class="col-12 col-md-6 col-lg-9" style="overflow-y: scroll; max-height: 1000px;">
+                <div class="row" id="placeholder_other">
                     {% if other_swappables %}
                         {% for swappable in other_swappables %}
                             {% for swappable_image in swappable.swappable_image.all %}
                                 {% if swappable_image.main == True %}
-                                    <div class="col-12 border-dark border mb-4 mt-4 p-4" style="background-color: #FDFCDC; border-radius: 15px;">
-                                        <div class="">
+                                    <div class="col-lg-4">
+                                        <div class="border-dark border mb-4 mt-4" style="background-color: white; border-radius: 15px;">
                                             <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
-                                                <div class="row mb-4">
-                                                    <div>
-                                                        <img class="mx-auto img-fluid w-100" style="height: 500px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                                <div class="mb-4">
+                                                    <div class="p-0">
+                                                        <img class="img-fluid w-100" style="height: 300px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
                                                     </div>
                                                     <div class="p-md-4 py-4">
                                                         <h3>{{swappable.name}}</h3>

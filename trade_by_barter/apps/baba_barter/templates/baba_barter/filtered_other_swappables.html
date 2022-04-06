@@ -1,16 +1,18 @@
 {% if no_swappable_message %}
-    <p>{{no_swappable_message}}</p>
+    <div class="">
+        <p>{{no_swappable_message}}</p>
+    </div>
 {% else %}
     {% if other_swappables %}
         {% for swappable in other_swappables %}
             {% for swappable_image in swappable.swappable_image.all %}
                 {% if swappable_image.main == True %}
-                    <div class="col-12 border-dark border mb-4 mt-4 p-4" style="background-color: #FDFCDC; border-radius: 15px;">
-                        <div class="">
+                    <div class="col-lg-4">
+                        <div class="border-dark border mb-4 mt-4" style="background-color: white; border-radius: 15px;">
                             <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
-                                <div class="row mb-4">
-                                    <div>
-                                        <img class="mx-auto img-fluid w-100" style="height: 500px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                                <div class="mb-4">
+                                    <div class="p-0">
+                                        <img class="img-fluid w-100" style="height: 300px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
                                     </div>
                                     <div class="p-md-4 py-4">
                                         <h3>{{swappable.name}}</h3>

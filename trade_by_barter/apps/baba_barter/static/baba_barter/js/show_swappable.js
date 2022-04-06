@@ -156,4 +156,18 @@ $(document).ready(function(){
             $('#delete_swappable_modal').modal('hide');
         });
     });
+
+    //if report profile is clicked, replace placeholder div below with the edit profile form
+    $("#report_profile_link").on("click", function(){
+        data = {'id': $("#report_profile_link").data("id")}
+        $.ajax({
+            type: "POST",
+            url: $("#report_profile_link").attr("href"),
+            data: data,
+            success: function(response){
+                $('#placeholder').html(response);
+            }
+        });
+        return false;
+    });
 });

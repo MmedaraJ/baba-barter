@@ -123,7 +123,7 @@ class UserManager(models.Manager):
         else:
             user = User.objects.filter(email=post_data['signin_email_input'])
             if len(user)>0:
-                if not bcrypt.checkpw(post_data['signin_password_input'].encode(), user[0].password_hash.encode()): 
+                if not bcrypt.checkpw(post_data['signin_password_input'].encode('utf-8'), user[0].password_hash.encode('utf-8')): 
                     errors['sign_in_password'] = "Incorrect password"
         return errors
 
@@ -450,6 +450,44 @@ class UserFlagImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserFlagImageManager()
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+class SwappableFlagManager(models.Manager):
+    def swappable_flag_validations(self, post_data) -> dict:
+        errors = {}
+        message = self.validate_message(post_data, errors)
+        return {**message}
+    
+    def validate_message(self, post_data, errors) -> dict:
+        if len(post_data['report_swappable_message']) < 1:
+            errors['report_swappable_message'] = "Message cannot be empty"
+        return errors
+
+class SwappableFlag(models.Model):
+    flagged_swappable = models.ForeignKey(Swappable, related_name='flagged_swappable_flag', on_delete=models.CASCADE)
+    flagger_user = models.ForeignKey(User, related_name='swappable_flagger_user_flag', on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    resolved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = SwappableFlagManager()
+
+    def __str__(self) -> str:
+        return f"{self.flagged_swappable.name} was reported by {self.flagger_user.first_name}"
+
+class SwappableFlagImageManager(models.Manager):
+    def swappable_flag_image_validations(self):
+        return
+
+class SwappableFlagImage(models.Model):
+    name = models.CharField(max_length=20)
+    image = models.ImageField(upload_to='report_swappable_images/', default="")
+    swappable_flag = models.ForeignKey(SwappableFlag, related_name='swappable_flag_image', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = SwappableFlagImageManager()
 
     def __str__(self) -> str:
         return f"{self.name}"

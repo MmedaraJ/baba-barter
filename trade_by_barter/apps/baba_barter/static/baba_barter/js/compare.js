@@ -11,7 +11,7 @@ function filterOtherSwappables(){
 }
     
 $(document).ready(function(){
-    $('select[name=category_sort], select[name=order_sort], input[name=value]').on("change", function(){
+    $('select[name=category_sort], select[name=order_sort], input[name=value], #location, #name').on("change", function(){
         filterOtherSwappables();
     });
     $('#location, #name').on("keyup", function(){

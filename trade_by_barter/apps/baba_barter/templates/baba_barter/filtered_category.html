@@ -4,13 +4,23 @@
     {% for swappable in swappables %}
         {% for swappable_image in swappable.swappable_image.all %}
             {% if swappable_image.main == True %}
-                <div class="col-12 col-sm-4 col-md-3 col-xl-2 mb-6">
-                    <div class="border border-dark" style="background-color: grey; border-radius: 15px;">
-                        <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
-                            <img class="mx-auto img-fluid w-100 p-4" style="height: 224px; object-fit: cover;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
-                        </a>
-                    </div>
+            <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-6">
+                <div class="border border-dark" style="background-color: white; border-radius: 15px;">
+                    <a class="link-dark text-decoration-none d-block" href="{% url 'baba:show_swappable' id=swappable.id %}">
+                        <div>
+                            <img class="mx-auto img-fluid w-100" style="height: 300px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;" src="{{swappable_image.image.url}}" alt="{{swappable_image.name}}">
+                        </div>
+                        <div class="p-md-4 py-4 p-4">
+                            <h3>{{swappable.name}}</h3>
+                            <p style="overflow-wrap: break-word;" class="text-muted">{{swappable.short_description}}</p>
+                            <p class="text-info">${{swappable.value}}</p>
+                            {% for cat in swappable.sub_categories.all %}
+                                <small><span>{{cat.name}}, </span></small>
+                            {% endfor %}
+                        </div>
+                    </a>
                 </div>
+            </div>
             {% endif %}
         {% endfor %}
     {% endfor %}
